@@ -133,7 +133,7 @@ Espada → Catalizador → Arco → Lanza → Mandoble → Espada
 │           ├── TableroDeJuego.java
 │           └── Vision.java
 │
-└── juego/                 ← versión web (la que sirve GitHub Pages)
+└── docs/                 ← versión web (la que sirve GitHub Pages)
     ├── index.html          ← punto de entrada
     ├── style.css
     ├── game.js
