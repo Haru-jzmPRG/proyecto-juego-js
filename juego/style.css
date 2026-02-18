@@ -1,0 +1,451 @@
+/* ============================================================
+   GENSHIN BATTLE SIM — Estilos
+   ============================================================ */
+
+:root {
+  --pyro:    #ff6b35;
+  --hydro:   #4fc3f7;
+  --electro: #ce93d8;
+  --dendro:  #a5d6a7;
+  --anemo:   #e0f7fa;
+  --geo:     #ffcc02;
+  --cryo:    #b2ebf2;
+  --gold:    #c8a96e;
+  --gold2:   #e8d5a3;
+  --dark:    #0d1117;
+  --panel:   #141b26;
+  --border:  #2a3a52;
+  --border2: #3d5a7a;
+  --text:    #d4c5a0;
+  --text2:   #8fa8c4;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: var(--dark);
+  font-family: 'Cinzel', serif;
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ───── Fondo animado tipo Genshin ───── */
+.bg-layer {
+  position: fixed; inset: 0; z-index: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 20% 30%, rgba(78,130,180,.18) 0%, transparent 60%),
+    radial-gradient(ellipse 70% 50% at 80% 70%, rgba(180,120,60,.12) 0%, transparent 55%),
+    linear-gradient(170deg, #070d15 0%, #0d1a2a 40%, #0a1320 100%);
+}
+.bg-stars {
+  position: fixed; inset: 0; z-index: 0;
+  background-image:
+    radial-gradient(1px 1px at 15% 20%, rgba(200,169,110,.6) 0%, transparent 100%),
+    radial-gradient(1px 1px at 45% 10%, rgba(200,169,110,.4) 0%, transparent 100%),
+    radial-gradient(1px 1px at 70% 35%, rgba(200,169,110,.5) 0%, transparent 100%),
+    radial-gradient(1px 1px at 85% 15%, rgba(200,169,110,.3) 0%, transparent 100%),
+    radial-gradient(1px 1px at 30% 80%, rgba(200,169,110,.4) 0%, transparent 100%),
+    radial-gradient(1px 1px at 60% 75%, rgba(200,169,110,.5) 0%, transparent 100%),
+    radial-gradient(2px 2px at 25% 55%, rgba(200,169,110,.3) 0%, transparent 100%),
+    radial-gradient(2px 2px at 90% 60%, rgba(200,169,110,.4) 0%, transparent 100%);
+}
+.bg-deco {
+  position: fixed; inset: 0; z-index: 0; overflow: hidden;
+}
+.bg-deco::before {
+  content: '';
+  position: absolute; top: -20%; left: -10%;
+  width: 50vw; height: 50vw;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(78,130,180,.06) 0%, transparent 65%);
+  animation: drift1 18s ease-in-out infinite alternate;
+}
+.bg-deco::after {
+  content: '';
+  position: absolute; bottom: -15%; right: -5%;
+  width: 40vw; height: 40vw;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(180,120,60,.07) 0%, transparent 65%);
+  animation: drift2 22s ease-in-out infinite alternate;
+}
+@keyframes drift1 { from { transform: translate(0,0) scale(1); } to { transform: translate(5%,8%) scale(1.1); } }
+@keyframes drift2 { from { transform: translate(0,0) scale(1); } to { transform: translate(-6%,-5%) scale(1.08); } }
+
+/* ───── Layout principal ───── */
+#app {
+  position: relative; z-index: 1;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 20px;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  min-height: 100vh;
+  gap: 16px;
+}
+
+/* ───── Header ───── */
+header {
+  text-align: center;
+  padding: 18px 0 10px;
+  position: relative;
+}
+header::after {
+  content: '';
+  display: block;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  margin-top: 14px;
+}
+.title-main {
+  font-family: 'Cinzel Decorative', cursive;
+  font-size: clamp(1.4rem, 4vw, 2.6rem);
+  font-weight: 700;
+  letter-spacing: .1em;
+  background: linear-gradient(135deg, #c8a96e 0%, #ffe9a0 50%, #c8a96e 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: none;
+  filter: drop-shadow(0 0 18px rgba(200,169,110,.4));
+}
+.title-sub {
+  font-family: 'IM Fell English', serif;
+  font-style: italic;
+  color: var(--text2);
+  font-size: .9rem;
+  letter-spacing: .2em;
+  margin-top: 4px;
+}
+
+/* ───── Contenido central ───── */
+.main-content {
+  display: grid;
+  grid-template-columns: 200px 1fr 200px;
+  gap: 14px;
+  align-items: start;
+}
+
+/* ───── Paneles laterales ───── */
+.side-panel {
+  background: linear-gradient(160deg, rgba(20,27,38,.95) 0%, rgba(15,21,32,.98) 100%);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px 12px;
+  position: relative;
+  overflow: hidden;
+}
+.side-panel::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+.panel-title {
+  font-size: .65rem;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 10px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid rgba(200,169,110,.2);
+}
+
+/* Contador de personajes */
+.char-count {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+.count-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: .8rem;
+}
+.count-icon {
+  width: 22px; height: 22px;
+  border-radius: 4px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px;
+  flex-shrink: 0;
+}
+.count-icon.malo  { background: rgba(255,60,60,.15); border: 1px solid rgba(255,60,60,.3); }
+.count-icon.bueno { background: rgba(100,220,180,.15); border: 1px solid rgba(100,220,180,.3); }
+.count-num {
+  font-family: 'Cinzel Decorative', cursive;
+  font-size: 1rem;
+  color: var(--gold2);
+  min-width: 28px;
+  text-align: right;
+}
+.count-label { color: var(--text2); font-size: .7rem; }
+
+/* Barra de progreso */
+.progress-bar-wrap {
+  background: rgba(0,0,0,.4);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  height: 5px;
+  margin-top: 4px;
+  overflow: hidden;
+}
+.progress-bar-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width .3s ease;
+}
+.pb-malo  { background: linear-gradient(90deg, #c0392b, #ff6b6b); }
+.pb-bueno { background: linear-gradient(90deg, #27ae60, #52e09a); }
+
+/* Lista de elementos */
+.element-list { display: flex; flex-direction: column; gap: 5px; }
+.el-row {
+  display: flex; align-items: center; gap: 7px;
+  font-size: .7rem; color: var(--text2);
+  padding: 3px 6px; border-radius: 4px;
+  transition: background .2s;
+}
+.el-row:hover { background: rgba(255,255,255,.04); }
+.el-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* Turn counter */
+.turn-display {
+  text-align: center;
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(200,169,110,.15);
+}
+.turn-label { font-size: .6rem; letter-spacing: .15em; color: var(--text2); text-transform: uppercase; }
+.turn-num {
+  font-family: 'Cinzel Decorative', cursive;
+  font-size: 1.4rem;
+  color: var(--gold);
+  line-height: 1.2;
+}
+
+/* Log de combates */
+.combat-log {
+  font-family: 'IM Fell English', serif;
+  font-size: .75rem;
+  max-height: 180px;
+  overflow-y: auto;
+  display: flex; flex-direction: column-reverse;
+  gap: 2px;
+}
+.combat-log::-webkit-scrollbar { width: 3px; }
+.combat-log::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+.log-entry {
+  color: var(--text2);
+  padding: 2px 0;
+  border-bottom: 1px solid rgba(255,255,255,.04);
+  line-height: 1.4;
+}
+.log-entry .lo-t { font-size: .65rem; color: rgba(200,169,110,.5); }
+.log-malo-gana  { color: #ff8a8a; }
+.log-bueno-gana { color: #6dffb9; }
+
+/* ───── Tablero ───── */
+.board-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+#board-container {
+  background: linear-gradient(135deg, rgba(10,16,24,.97) 0%, rgba(12,20,30,.99) 100%);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 8px;
+  position: relative;
+  overflow: hidden;
+  box-shadow:
+    inset 0 0 40px rgba(0,0,0,.5),
+    0 0 0 1px rgba(200,169,110,.1),
+    0 4px 40px rgba(0,0,0,.5);
+}
+#board-container::before {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    repeating-linear-gradient(0deg, transparent, transparent 23px, rgba(200,169,110,.025) 23px, rgba(200,169,110,.025) 24px),
+    repeating-linear-gradient(90deg, transparent, transparent 23px, rgba(200,169,110,.025) 23px, rgba(200,169,110,.025) 24px);
+  pointer-events: none;
+  border-radius: 10px;
+}
+#board-container::after {
+  content: '◆';
+  position: absolute; top: 6px; right: 10px;
+  color: rgba(200,169,110,.2);
+  font-size: .8rem;
+}
+.corner-deco {
+  position: absolute; color: rgba(200,169,110,.2); font-size: .8rem; z-index: 2; pointer-events: none;
+}
+.corner-deco.tl { top:6px; left:10px; }
+.corner-deco.bl { bottom:6px; left:10px; }
+.corner-deco.br { bottom:6px; right:10px; }
+
+#game-canvas {
+  display: block;
+  width: 100%;
+  image-rendering: pixelated;
+  border-radius: 6px;
+}
+
+/* ───── Controles ───── */
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 12px 16px;
+  background: linear-gradient(160deg, rgba(20,27,38,.95), rgba(15,21,32,.98));
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  position: relative;
+  overflow: hidden;
+}
+.controls::before {
+  content: '';
+  position: absolute; bottom: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+
+.btn {
+  font-family: 'Cinzel', serif;
+  font-size: .75rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  padding: 9px 20px;
+  transition: all .2s ease;
+  position: relative;
+  overflow: hidden;
+}
+.btn::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,.08) 0%, transparent 50%);
+  pointer-events: none;
+}
+.btn:disabled { opacity: .4; cursor: not-allowed; }
+
+.btn-primary {
+  background: linear-gradient(135deg, #c8a96e 0%, #a07840 100%);
+  color: #1a1000;
+  box-shadow: 0 2px 12px rgba(200,169,110,.3);
+}
+.btn-primary:not(:disabled):hover {
+  background: linear-gradient(135deg, #e8c98e 0%, #c8a96e 100%);
+  box-shadow: 0 4px 20px rgba(200,169,110,.5);
+  transform: translateY(-1px);
+}
+.btn-secondary {
+  background: linear-gradient(135deg, rgba(42,58,82,.9) 0%, rgba(30,45,65,.9) 100%);
+  color: var(--text2);
+  border: 1px solid var(--border2);
+}
+.btn-secondary:not(:disabled):hover {
+  border-color: var(--gold);
+  color: var(--gold2);
+  transform: translateY(-1px);
+}
+.btn-danger {
+  background: linear-gradient(135deg, rgba(150,40,40,.8) 0%, rgba(100,25,25,.9) 100%);
+  color: #ffb3b3;
+  border: 1px solid rgba(200,80,80,.3);
+}
+.btn-danger:not(:disabled):hover {
+  background: linear-gradient(135deg, rgba(200,60,60,.8) 0%, rgba(150,30,30,.9) 100%);
+  transform: translateY(-1px);
+}
+
+/* Troop inputs */
+.troops-wrap {
+  display: flex; align-items: center; gap: 14px;
+  padding: 8px 14px;
+  background: rgba(0,0,0,.25);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+.troop-field {
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+}
+.troop-label {
+  font-size: .6rem; letter-spacing: .12em; text-transform: uppercase;
+}
+.troop-label.malo  { color: #ff8a8a; }
+.troop-label.bueno { color: #6dffb9; }
+.troop-input {
+  font-family: 'Cinzel Decorative', cursive;
+  font-size: .9rem;
+  width: 52px; text-align: center;
+  background: rgba(10,15,25,.8);
+  border: 1px solid var(--border2);
+  border-radius: 4px;
+  color: var(--gold2);
+  padding: 4px 6px;
+  outline: none;
+  transition: border-color .2s;
+  -moz-appearance: textfield;
+}
+.troop-input::-webkit-inner-spin-button,
+.troop-input::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+.troop-input:focus  { border-color: var(--gold); }
+.troop-input:disabled { opacity: .4; }
+.troop-sep { color: var(--border2); font-size: 1.1rem; align-self: center; margin-top: 14px; }
+
+/* Speed slider */
+.speed-wrap {
+  display: flex; align-items: center; gap: 8px;
+  font-size: .65rem; color: var(--text2); letter-spacing: .1em;
+}
+#speed-slider {
+  -webkit-appearance: none;
+  width: 80px; height: 3px;
+  background: var(--border2);
+  border-radius: 2px; cursor: pointer;
+}
+#speed-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 12px; height: 12px;
+  border-radius: 50%;
+  background: var(--gold);
+  border: none;
+}
+
+/* ───── Banner de resultado ───── */
+#result-banner {
+  display: none;
+  position: absolute; inset: 0;
+  z-index: 10;
+  align-items: center; justify-content: center;
+  background: rgba(7,13,21,.85);
+  backdrop-filter: blur(6px);
+  border-radius: 10px;
+  flex-direction: column;
+  gap: 10px;
+  animation: fadeIn .5s ease;
+}
+#result-banner.show { display: flex; }
+@keyframes fadeIn { from { opacity: 0; transform: scale(.95); } to { opacity: 1; transform: scale(1); } }
+.result-title {
+  font-family: 'Cinzel Decorative', cursive;
+  font-size: clamp(1.5rem, 5vw, 2.5rem);
+  filter: drop-shadow(0 0 20px currentColor);
+}
+.result-title.malos-ganan  { color: #ff6b6b; }
+.result-title.buenos-ganan { color: #6dffb9; }
+.result-sub { color: var(--text2); font-family: 'IM Fell English', serif; font-style: italic; font-size: .9rem; }
+
+/* ───── Responsive ───── */
+@media (max-width: 900px) {
+  .main-content { grid-template-columns: 1fr; }
+  .side-panel { display: none; }
+}

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Genshin Battle Sim</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cinzel:wght@400;600&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- Capas del fondo animado tipo Genshin -->
+<div class="bg-layer"></div>
+<div class="bg-stars"></div>
+<div class="bg-deco"></div>
+
+<div id="app">
+
+  <header>
+    <div class="title-main">Genshin Battle Sim</div>
+    <div class="title-sub">Proyecto POO · Batalla de Visiones</div>
+  </header>
+
+  <div class="main-content">
+
+    <!-- ── Panel izquierdo: Facción Oscura ── -->
+    <aside class="side-panel">
+      <div class="panel-title">⚔ Facción Oscura</div>
+
+      <div class="char-count">
+        <div class="count-item">
+          <div class="count-icon malo">Ø</div>
+          <div>
+            <div style="display:flex;align-items:center;gap:6px;">
+              <span class="count-num" id="malos-count">40</span>
+              <span class="count-label">activos</span>
+            </div>
+            <div class="progress-bar-wrap">
+              <div class="progress-bar-fill pb-malo" id="pb-malo" style="width:100%"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel-title" style="margin-top:10px">Visiones activas</div>
+      <div class="element-list">
+        <div class="el-row"><div class="el-dot" style="background:var(--pyro)"></div>Pyro       <span id="m-pyro"    style="margin-left:auto;color:var(--gold)">-</span></div>
+        <div class="el-row"><div class="el-dot" style="background:var(--hydro)"></div>Hydro     <span id="m-hydro"   style="margin-left:auto;color:var(--gold)">-</span></div>
+        <div class="el-row"><div class="el-dot" style="background:var(--electro)"></div>Electro <span id="m-electro" style="margin-left:auto;color:var(--gold)">-</span></div>
+        <div class="el-row"><div class="el-dot" style="background:var(--dendro)"></div>Dendro   <span id="m-dendro"  style="margin-left:auto;color:var(--gold)">-</span></div>
+        <div class="el-row"><div class="el-dot" style="background:var(--anemo)"></div>Anemo     <span id="m-anemo"   style="margin-left:auto;color:var(--gold)">-</span></div>
+        <div class="el-row"><div class="el-dot" style="background:var(--geo)"></div>Geo         <span id="m-geo"     style="margin-left:auto;color:var(--gold)">-</span></div>
+        <div class="el-row"><div class="el-dot" style="background:var(--cryo)"></div>Cryo       <span id="m-cryo"    style="margin-left:auto;color:var(--gold)">-</span></div>
+      </div>
+
+      <div class="turn-display">
+        <div class="turn-label">Turno</div>
+        <div class="turn-num" id="turn-num">0</div>
+      </div>
+    </aside>
+
+    <!-- ── Tablero central ── -->
+    <div class="board-wrap">
+      <div id="board-container">
+        <span class="corner-deco tl">◆</span>
+        <span class="corner-deco bl">◆</span>
+        <span class="corner-deco br">◆</span>
+        <canvas id="game-canvas"></canvas>
+        <div id="result-banner">
+          <div class="result-title" id="result-title">Victoria</div>
+          <div class="result-sub"   id="result-sub">La batalla ha concluido</div>
+        </div>
+      </div>
+
+      <!-- ── Barra de controles ── -->
+      <div class="controls">
+        <button class="btn btn-primary"   id="btn-start">Iniciar Batalla</button>
+        <button class="btn btn-secondary" id="btn-pause" disabled>Pausar</button>
+        <button class="btn btn-danger"    id="btn-reset" disabled>Reiniciar</button>
+
+        <div class="troops-wrap">
+          <div class="troop-field">
+            <span class="troop-label malo">⚔ Malos</span>
+            <input class="troop-input" id="input-malos" type="number" min="1" max="200" value="40">
+          </div>
+          <span class="troop-sep">vs</span>
+          <div class="troop-field">
+            <span class="troop-label bueno">✦ Buenos</span>
+            <input class="troop-input" id="input-buenos" type="number" min="1" max="200" value="40">
+          </div>
+          <span class="troop-sep" style="margin-left:4px">·</span>
+          <div class="troop-field">
+            <span class="troop-label" style="color:var(--text2)">■ Obstác.</span>
+            <input class="troop-input" id="input-obstaculos" type="number" min="0" max="500" value="77">
+          </div>
+        </div>
+
+        <div class="speed-wrap">
+          <span>Velocidad</span>
+          <input type="range" id="speed-slider" min="1" max="10" value="5">
+          <span id="speed-label">5x</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Panel derecho: Facción de la Luz ── -->
+    <aside class="side-panel">
+      <div class="panel-title">✦ Facción de la Luz</div>
+
+      <div class="char-count">
+        <div class="count-item">
+          <div class="count-icon bueno">ß</div>
+          <div>
+            <div style="display:flex;align-items:center;gap:6px;">
+              <span class="count-num" id="buenos-count">40</span>
+              <span class="count-label">activos</span>
+            </div>
+            <div class="progress-bar-wrap">
+              <div class="progress-bar-fill pb-bueno" id="pb-bueno" style="width:100%"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel-title" style="margin-top:10px">Visiones activas</div>
+      <div class="element-list">
+        <div class="el-row"><div class="el-dot" style="background:var(--pyro)"></div>Pyro       <span id="b-pyro"    style="margin-left:auto;color:var(--gold)">-</span></div>
+        <div class="el-row"><div class="el-dot" style="background:var(--hydro)"></div>Hydro     <span id="b-hydro"   style="margin-left:auto;color:var(--gold)">-</span></div>
+        <div class="el-row"><div class="el-dot" style="background:var(--electro)"></div>Electro <span id="b-electro" style="margin-left:auto;color:var(--gold)">-</span></div>
+        <div class="el-row"><div class="el-dot" style="background:var(--dendro)"></div>Dendro   <span id="b-dendro"  style="margin-left:auto;color:var(--gold)">-</span></div>
+        <div class="el-row"><div class="el-dot" style="background:var(--anemo)"></div>Anemo     <span id="b-anemo"   style="margin-left:auto;color:var(--gold)">-</span></div>
+        <div class="el-row"><div class="el-dot" style="background:var(--geo)"></div>Geo         <span id="b-geo"     style="margin-left:auto;color:var(--gold)">-</span></div>
+        <div class="el-row"><div class="el-dot" style="background:var(--cryo)"></div>Cryo       <span id="b-cryo"    style="margin-left:auto;color:var(--gold)">-</span></div>
+      </div>
+
+      <div class="panel-title" style="margin-top:10px">📜 Combates</div>
+      <div class="combat-log" id="combat-log"></div>
+    </aside>
+
+  </div>
+
+</div>
+
+<script src="game.js"></script>
+</body>
+</html>
