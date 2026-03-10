@@ -1,146 +1,337 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" data-region="mondstadt">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Genshin Battle Sim</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cinzel:wght@400;600&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+  <title>Genshin Battle Sim - Teyvat Edition</title>
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-<!-- Capas del fondo animado tipo Genshin -->
-<div class="bg-layer"></div>
-<div class="bg-stars"></div>
-<div class="bg-deco"></div>
+  <div id="region-transition"></div>
+  <div class="bg-layer"></div>
+  <div class="bg-stars"></div>
+  <div class="bg-deco"></div>
 
-<div id="app">
-
-  <header>
-    <div class="title-main">Genshin Battle Sim</div>
-    <div class="title-sub">Proyecto POO · Batalla de Visiones</div>
-  </header>
-
-  <div class="main-content">
-
-    <!-- ── Panel izquierdo: Facción Oscura ── -->
-    <aside class="side-panel">
-      <div class="panel-title">⚔ Facción Oscura</div>
-
-      <div class="char-count">
-        <div class="count-item">
-          <div class="count-icon malo">Ø</div>
-          <div>
-            <div style="display:flex;align-items:center;gap:6px;">
-              <span class="count-num" id="malos-count">40</span>
-              <span class="count-label">activos</span>
-            </div>
-            <div class="progress-bar-wrap">
-              <div class="progress-bar-fill pb-malo" id="pb-malo" style="width:100%"></div>
-            </div>
-          </div>
-        </div>
+  <!-- SELECTOR DE REGION -->
+  <div id="region-selector">
+    <button id="region-toggle" aria-label="Elegir region">
+      <span class="toggle-icon" id="toggle-icon">&#10022;</span>
+      <span id="toggle-label">Mondstadt</span>
+      <span class="toggle-arrow">&#9660;</span>
+    </button>
+    <div id="region-dropdown">
+      <div class="region-option active" data-r="mondstadt" tabindex="0">
+        <div class="r-dot"></div>
+        <span class="r-name">Mondstadt</span>
+        <span class="r-element">Anemo</span>
       </div>
-
-      <div class="panel-title" style="margin-top:10px">Visiones activas</div>
-      <div class="element-list">
-        <div class="el-row"><div class="el-dot" style="background:var(--pyro)"></div>Pyro       <span id="m-pyro"    style="margin-left:auto;color:var(--gold)">-</span></div>
-        <div class="el-row"><div class="el-dot" style="background:var(--hydro)"></div>Hydro     <span id="m-hydro"   style="margin-left:auto;color:var(--gold)">-</span></div>
-        <div class="el-row"><div class="el-dot" style="background:var(--electro)"></div>Electro <span id="m-electro" style="margin-left:auto;color:var(--gold)">-</span></div>
-        <div class="el-row"><div class="el-dot" style="background:var(--dendro)"></div>Dendro   <span id="m-dendro"  style="margin-left:auto;color:var(--gold)">-</span></div>
-        <div class="el-row"><div class="el-dot" style="background:var(--anemo)"></div>Anemo     <span id="m-anemo"   style="margin-left:auto;color:var(--gold)">-</span></div>
-        <div class="el-row"><div class="el-dot" style="background:var(--geo)"></div>Geo         <span id="m-geo"     style="margin-left:auto;color:var(--gold)">-</span></div>
-        <div class="el-row"><div class="el-dot" style="background:var(--cryo)"></div>Cryo       <span id="m-cryo"    style="margin-left:auto;color:var(--gold)">-</span></div>
+      <div class="region-option" data-r="liyue" tabindex="0">
+        <div class="r-dot"></div>
+        <span class="r-name">Liyue</span>
+        <span class="r-element">Geo</span>
       </div>
-
-      <div class="turn-display">
-        <div class="turn-label">Turno</div>
-        <div class="turn-num" id="turn-num">0</div>
+      <div class="region-option" data-r="inazuma" tabindex="0">
+        <div class="r-dot"></div>
+        <span class="r-name">Inazuma</span>
+        <span class="r-element">Electro</span>
       </div>
-    </aside>
-
-    <!-- ── Tablero central ── -->
-    <div class="board-wrap">
-      <div id="board-container">
-        <span class="corner-deco tl">◆</span>
-        <span class="corner-deco bl">◆</span>
-        <span class="corner-deco br">◆</span>
-        <canvas id="game-canvas"></canvas>
-        <div id="result-banner">
-          <div class="result-title" id="result-title">Victoria</div>
-          <div class="result-sub"   id="result-sub">La batalla ha concluido</div>
-        </div>
+      <div class="region-option" data-r="sumeru" tabindex="0">
+        <div class="r-dot"></div>
+        <span class="r-name">Sumeru</span>
+        <span class="r-element">Dendro</span>
       </div>
-
-      <!-- ── Barra de controles ── -->
-      <div class="controls">
-        <button class="btn btn-primary"   id="btn-start">Iniciar Batalla</button>
-        <button class="btn btn-secondary" id="btn-pause" disabled>Pausar</button>
-        <button class="btn btn-danger"    id="btn-reset" disabled>Reiniciar</button>
-
-        <div class="troops-wrap">
-          <div class="troop-field">
-            <span class="troop-label malo">⚔ Malos</span>
-            <input class="troop-input" id="input-malos" type="number" min="1" max="200" value="40">
-          </div>
-          <span class="troop-sep">vs</span>
-          <div class="troop-field">
-            <span class="troop-label bueno">✦ Buenos</span>
-            <input class="troop-input" id="input-buenos" type="number" min="1" max="200" value="40">
-          </div>
-          <span class="troop-sep" style="margin-left:4px">·</span>
-          <div class="troop-field">
-            <span class="troop-label" style="color:var(--text2)">■ Obstác.</span>
-            <input class="troop-input" id="input-obstaculos" type="number" min="0" max="500" value="77">
-          </div>
-        </div>
-
-        <div class="speed-wrap">
-          <span>Velocidad</span>
-          <input type="range" id="speed-slider" min="1" max="10" value="5">
-          <span id="speed-label">5x</span>
-        </div>
+      <div class="region-option" data-r="fontaine" tabindex="0">
+        <div class="r-dot"></div>
+        <span class="r-name">Fontaine</span>
+        <span class="r-element">Hydro</span>
+      </div>
+      <div class="region-option" data-r="natlan" tabindex="0">
+        <div class="r-dot"></div>
+        <span class="r-name">Natlan</span>
+        <span class="r-element">Pyro</span>
+      </div>
+      <div class="region-option" data-r="snezhnaya" tabindex="0">
+        <div class="r-dot"></div>
+        <span class="r-name">Snezhnaya</span>
+        <span class="r-element">Cryo</span>
       </div>
     </div>
+  </div>
 
-    <!-- ── Panel derecho: Facción de la Luz ── -->
-    <aside class="side-panel">
-      <div class="panel-title">✦ Facción de la Luz</div>
+  <!-- APP -->
+  <div id="app">
 
-      <div class="char-count">
-        <div class="count-item">
-          <div class="count-icon bueno">ß</div>
-          <div>
-            <div style="display:flex;align-items:center;gap:6px;">
-              <span class="count-num" id="buenos-count">40</span>
-              <span class="count-label">activos</span>
+    <header>
+      <div class="title-main">Genshin Battle Sim</div>
+      <div class="title-sub">Proyecto POO - Batalla de Visiones</div>
+      <div class="region-subtitle" id="region-subtitle">Mondstadt - Ciudad de la Libertad</div>
+    </header>
+
+    <div class="main-content">
+
+      <!-- Panel izquierdo: Faccion Oscura -->
+      <aside class="side-panel">
+        <div class="panel-title">&#9876; Faccion Oscura</div>
+
+        <div class="char-count">
+          <div class="count-item">
+            <div class="count-icon malo">&#216;</div>
+            <div>
+              <div style="display:flex;align-items:center;gap:6px;">
+                <span class="count-num" id="malos-count">40</span>
+                <span class="count-label">activos</span>
+              </div>
+              <div class="progress-bar-wrap">
+                <div class="progress-bar-fill pb-malo" id="pb-malo" style="width:100%"></div>
+              </div>
             </div>
-            <div class="progress-bar-wrap">
-              <div class="progress-bar-fill pb-bueno" id="pb-bueno" style="width:100%"></div>
+          </div>
+        </div>
+
+        <div class="panel-title" style="margin-top:10px">Visiones activas</div>
+        <div class="element-list">
+          <div class="el-row">
+            <div class="el-dot" style="background:var(--pyro)"></div>
+            <span>Pyro</span>
+            <span id="m-pyro" class="el-val">-</span>
+          </div>
+          <div class="el-row">
+            <div class="el-dot" style="background:var(--hydro)"></div>
+            <span>Hydro</span>
+            <span id="m-hydro" class="el-val">-</span>
+          </div>
+          <div class="el-row">
+            <div class="el-dot" style="background:var(--electro)"></div>
+            <span>Electro</span>
+            <span id="m-electro" class="el-val">-</span>
+          </div>
+          <div class="el-row">
+            <div class="el-dot" style="background:var(--dendro)"></div>
+            <span>Dendro</span>
+            <span id="m-dendro" class="el-val">-</span>
+          </div>
+          <div class="el-row">
+            <div class="el-dot" style="background:var(--anemo)"></div>
+            <span>Anemo</span>
+            <span id="m-anemo" class="el-val">-</span>
+          </div>
+          <div class="el-row">
+            <div class="el-dot" style="background:var(--geo)"></div>
+            <span>Geo</span>
+            <span id="m-geo" class="el-val">-</span>
+          </div>
+          <div class="el-row">
+            <div class="el-dot" style="background:var(--cryo)"></div>
+            <span>Cryo</span>
+            <span id="m-cryo" class="el-val">-</span>
+          </div>
+        </div>
+
+        <div class="turn-display">
+          <div class="turn-label">Turno</div>
+          <div class="turn-num" id="turn-num">0</div>
+        </div>
+      </aside>
+
+      <!-- Tablero central -->
+      <div class="board-wrap">
+        <div id="board-container">
+          <span class="corner-deco tl" id="corner-tl">&#9670;</span>
+          <span class="corner-deco bl" id="corner-bl">&#9670;</span>
+          <span class="corner-deco br" id="corner-br">&#9670;</span>
+          <canvas id="game-canvas"></canvas>
+          <div id="result-banner">
+            <div class="result-title" id="result-title">Victoria</div>
+            <div class="result-sub" id="result-sub">La batalla ha concluido</div>
+          </div>
+        </div>
+
+        <!-- Controles -->
+        <div class="controls">
+          <button class="btn btn-primary" id="btn-start">Iniciar Batalla</button>
+          <button class="btn btn-secondary" id="btn-pause" disabled>Pausar</button>
+          <button class="btn btn-danger" id="btn-reset" disabled>Reiniciar</button>
+
+          <div class="troops-wrap">
+            <div class="troop-field">
+              <span class="troop-label malo">Malos</span>
+              <input class="troop-input" id="input-malos" type="number" min="1" max="200" value="40">
             </div>
+            <span class="troop-sep">vs</span>
+            <div class="troop-field">
+              <span class="troop-label bueno">Buenos</span>
+              <input class="troop-input" id="input-buenos" type="number" min="1" max="200" value="40">
+            </div>
+            <span class="troop-sep">&#183;</span>
+            <div class="troop-field">
+              <span class="troop-label" style="color:var(--r-text2)">Obstac.</span>
+              <input class="troop-input" id="input-obstaculos" type="number" min="0" max="500" value="77">
+            </div>
+          </div>
+
+          <div class="speed-wrap">
+            <span>Velocidad</span>
+            <input type="range" id="speed-slider" min="1" max="10" value="5">
+            <span id="speed-label">5x</span>
           </div>
         </div>
       </div>
 
-      <div class="panel-title" style="margin-top:10px">Visiones activas</div>
-      <div class="element-list">
-        <div class="el-row"><div class="el-dot" style="background:var(--pyro)"></div>Pyro       <span id="b-pyro"    style="margin-left:auto;color:var(--gold)">-</span></div>
-        <div class="el-row"><div class="el-dot" style="background:var(--hydro)"></div>Hydro     <span id="b-hydro"   style="margin-left:auto;color:var(--gold)">-</span></div>
-        <div class="el-row"><div class="el-dot" style="background:var(--electro)"></div>Electro <span id="b-electro" style="margin-left:auto;color:var(--gold)">-</span></div>
-        <div class="el-row"><div class="el-dot" style="background:var(--dendro)"></div>Dendro   <span id="b-dendro"  style="margin-left:auto;color:var(--gold)">-</span></div>
-        <div class="el-row"><div class="el-dot" style="background:var(--anemo)"></div>Anemo     <span id="b-anemo"   style="margin-left:auto;color:var(--gold)">-</span></div>
-        <div class="el-row"><div class="el-dot" style="background:var(--geo)"></div>Geo         <span id="b-geo"     style="margin-left:auto;color:var(--gold)">-</span></div>
-        <div class="el-row"><div class="el-dot" style="background:var(--cryo)"></div>Cryo       <span id="b-cryo"    style="margin-left:auto;color:var(--gold)">-</span></div>
-      </div>
+      <!-- Panel derecho: Faccion de la Luz -->
+      <aside class="side-panel">
+        <div class="panel-title">&#10022; Faccion de la Luz</div>
 
-      <div class="panel-title" style="margin-top:10px">📜 Combates</div>
-      <div class="combat-log" id="combat-log"></div>
-    </aside>
+        <div class="char-count">
+          <div class="count-item">
+            <div class="count-icon bueno">&#223;</div>
+            <div>
+              <div style="display:flex;align-items:center;gap:6px;">
+                <span class="count-num" id="buenos-count">40</span>
+                <span class="count-label">activos</span>
+              </div>
+              <div class="progress-bar-wrap">
+                <div class="progress-bar-fill pb-bueno" id="pb-bueno" style="width:100%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
 
+        <div class="panel-title" style="margin-top:10px">Visiones activas</div>
+        <div class="element-list">
+          <div class="el-row">
+            <div class="el-dot" style="background:var(--pyro)"></div>
+            <span>Pyro</span>
+            <span id="b-pyro" class="el-val">-</span>
+          </div>
+          <div class="el-row">
+            <div class="el-dot" style="background:var(--hydro)"></div>
+            <span>Hydro</span>
+            <span id="b-hydro" class="el-val">-</span>
+          </div>
+          <div class="el-row">
+            <div class="el-dot" style="background:var(--electro)"></div>
+            <span>Electro</span>
+            <span id="b-electro" class="el-val">-</span>
+          </div>
+          <div class="el-row">
+            <div class="el-dot" style="background:var(--dendro)"></div>
+            <span>Dendro</span>
+            <span id="b-dendro" class="el-val">-</span>
+          </div>
+          <div class="el-row">
+            <div class="el-dot" style="background:var(--anemo)"></div>
+            <span>Anemo</span>
+            <span id="b-anemo" class="el-val">-</span>
+          </div>
+          <div class="el-row">
+            <div class="el-dot" style="background:var(--geo)"></div>
+            <span>Geo</span>
+            <span id="b-geo" class="el-val">-</span>
+          </div>
+          <div class="el-row">
+            <div class="el-dot" style="background:var(--cryo)"></div>
+            <span>Cryo</span>
+            <span id="b-cryo" class="el-val">-</span>
+          </div>
+        </div>
+
+        <div class="panel-title" style="margin-top:10px">Combates</div>
+        <div class="combat-log" id="combat-log"></div>
+      </aside>
+
+    </div>
   </div>
 
-</div>
+  <script src="game.js"></script>
+  <script>
+    var REGIONS = {
+      mondstadt: { name: 'Mondstadt', subtitle: 'Mondstadt - Ciudad de la Libertad', icon: '\u2726', corner: '\u25C6' },
+      liyue: { name: 'Liyue', subtitle: 'Liyue - Puerto del Comercio', icon: '\u2756', corner: '\u2756' },
+      inazuma: { name: 'Inazuma', subtitle: 'Inazuma - Isla del Relampago Eterno', icon: '\u26A1', corner: '\u534D' },
+      sumeru: { name: 'Sumeru', subtitle: 'Sumeru - Tierra del Conocimiento', icon: '\u273F', corner: '\u273F' },
+      fontaine: { name: 'Fontaine', subtitle: 'Fontaine - Nacion de la Justicia', icon: '\u2699', corner: '\u2699' },
+      natlan: { name: 'Natlan', subtitle: 'Natlan - Tierra de la Guerra', icon: '\u25C8', corner: '\u25C8' },
+      snezhnaya: { name: 'Snezhnaya', subtitle: 'Snezhnaya - Imperio del Hielo', icon: '\u2745', corner: '\u2745' }
+    };
 
-<script src="game.js"></script>
+    var currentRegion = 'mondstadt';
+
+    function setRegion(key) {
+      if (!REGIONS[key]) return;
+      currentRegion = key;
+      var r = REGIONS[key];
+
+      // Flash overlay
+      var ov = document.getElementById('region-transition');
+      ov.classList.add('flash');
+      setTimeout(function () { ov.classList.remove('flash'); }, 300);
+
+      // data-region en <html>
+      document.documentElement.setAttribute('data-region', key);
+
+      // Textos
+      document.getElementById('region-subtitle').textContent = r.subtitle;
+      document.getElementById('toggle-icon').textContent = r.icon;
+      document.getElementById('toggle-label').textContent = r.name;
+
+      // Esquinas del tablero
+      ['corner-tl', 'corner-bl', 'corner-br'].forEach(function (id) {
+        var el = document.getElementById(id);
+        if (el) el.textContent = r.corner;
+      });
+
+      // Opciones activas
+      document.querySelectorAll('.region-option').forEach(function (opt) {
+        if (opt.dataset.r === key) {
+          opt.classList.add('active');
+        } else {
+          opt.classList.remove('active');
+        }
+      });
+
+      // Redibujar canvas con el nuevo tema
+      if (typeof renderer !== 'undefined' && renderer) {
+        renderer.draw(typeof todos !== 'undefined' ? todos : []);
+      }
+    }
+
+    // Toggle dropdown
+    var toggleBtn = document.getElementById('region-toggle');
+    var dropdown = document.getElementById('region-dropdown');
+
+    toggleBtn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      var isOpen = dropdown.classList.toggle('open');
+      toggleBtn.classList.toggle('open', isOpen);
+    });
+
+    // Elegir region
+    document.querySelectorAll('.region-option').forEach(function (opt) {
+      opt.addEventListener('click', function () {
+        setRegion(opt.dataset.r);
+        dropdown.classList.remove('open');
+        toggleBtn.classList.remove('open');
+      });
+      opt.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          setRegion(opt.dataset.r);
+          dropdown.classList.remove('open');
+          toggleBtn.classList.remove('open');
+        }
+      });
+    });
+
+    // Cerrar al hacer clic fuera
+    document.addEventListener('click', function (e) {
+      if (!document.getElementById('region-selector').contains(e.target)) {
+        dropdown.classList.remove('open');
+        toggleBtn.classList.remove('open');
+      }
+    });
+  </script>
 </body>
+
 </html>
