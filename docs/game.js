@@ -592,12 +592,12 @@ class Renderer {
   static get BORDER_SPRITES() {
     return {
       mondstadt: { h: 'assets/mondstadt_horizontal.png', v: 'assets/mondstadt_vertical.png', tl: 'assets/mondstadt_esquina_sup_izq.png', tr: 'assets/mondstadt_esquina_sup_der.png', bl: 'assets/mondstadt_esquina_inf_izq.png', br: 'assets/mondstadt_esquina_inf_der.png' },
-      liyue:     { h:'', v:'', tl:'', tr:'', bl:'', br:'' },
-      inazuma:   { h:'', v:'', tl:'', tr:'', bl:'', br:'' },
-      sumeru:    { h:'', v:'', tl:'', tr:'', bl:'', br:'' },
-      fontaine:  { h:'', v:'', tl:'', tr:'', bl:'', br:'' },
-      natlan:    { h:'', v:'', tl:'', tr:'', bl:'', br:'' },
-      snezhnaya: { h:'', v:'', tl:'', tr:'', bl:'', br:'' },
+      liyue:     { h:'assets/liyue_horizontal.png', v:'assets/liyue_vertical.png', tl:'assets/liyue_esquina_sup_izq.png', tr:'assets/liyue_esquina_sup_der.png', bl:'assets/liyue_esquina_inf_izq.png', br:'assets/liyue_esquina_inf_der.png' },
+      inazuma:   { h:'assets/inazuma_horizontal.png', v:'assets/inazuma_vertical.png', tl:'assets/inazuma_esquina_sup_izq.png', tr:'assets/inazuma_esquina_sup_der.png', bl:'assets/inazuma_esquina_inf_izq.png', br:'assets/inazuma_esquina_inf_der.png' },
+      sumeru:    { h:'assets/sumeru_horizontal.png', v:'assets/sumeru_vertical.png', tl:'assets/sumeru_esquina_sup_izq.png', tr:'assets/sumeru_esquina_sup_der.png', bl:'assets/sumeru_esquina_inf_izq.png', br:'assets/sumeru_esquina_inf_der.png' },
+      fontaine:  { h:'assets/fontaine_horizontal.png', v:'assets/fontaine_vertical.png', tl:'assets/fontaine_esquina_sup_izq.png', tr:'assets/fontaine_esquina_sup_der.png', bl:'assets/fontaine_esquina_inf_izq.png', br:'assets/fontaine_esquina_inf_der.png' },
+      natlan:    { h:'assets/natlan_horizontal.png', v:'assets/natlan_vertical.png', tl:'assets/natlan_esquina_sup_izq.png', tr:'assets/natlan_esquina_sup_der.png', bl:'assets/natlan_esquina_inf_izq.png', br:'assets/natlan_esquina_inf_der.png' },
+      snezhnaya: { h:'assets/snezhnaya_horizontal.png', v:'assets/snezhnaya_vertical.png', tl:'assets/snezhnaya_esquina_sup_izq.png', tr:'assets/snezhnaya_esquina_sup_der.png', bl:'assets/snezhnaya_esquina_inf_izq.png', br:'assets/snezhnaya_esquina_inf_der.png' },
     };
   }
 
