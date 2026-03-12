@@ -95,13 +95,13 @@ Espada → Catalizador → Arco → Lanza → Mandoble → Espada
 
 | Elemento | Archivo esperado | Vista previa |
 |---|---|---|
-| Pyro | `assets/PYRO.png` | ![PYRO](assets/PYRO.png) |
-| Hydro | `assets/HYDRO.png` | ![HYDRO](assets/HYDRO.png) |
-| Electro | `assets/ELECTRO.png` | ![ELECTRO](assets/ELECTRO.png) |
-| Dendro | `assets/DENDRO.png` | ![DENDRO](assets/DENDRO.png) |
-| Anemo | `assets/ANEMO.png` | ![ANEMO](assets/ANEMO.png) |
-| Geo | `assets/GEO.png` | ![GEO](assets/GEO.png) |
-| Cryo | `assets/CRYO.png` | ![CRYO](assets/CRYO.png) |
+| Pyro | `assets/PYRO.png` | ![PYRO](docs/assets/PYRO.png) |
+| Hydro | `assets/HYDRO.png` | ![HYDRO](docs/assets/HYDRO.png) |
+| Electro | `assets/ELECTRO.png` | ![ELECTRO](docs/assets/ELECTRO.png) |
+| Dendro | `assets/DENDRO.png` | ![DENDRO](docs/assets/DENDRO.png) |
+| Anemo | `assets/ANEMO.png` | ![ANEMO](docs/assets/ANEMO.png) |
+| Geo | `assets/GEO.png` | ![GEO](docs/assets/GEO.png) |
+| Cryo | `assets/CRYO.png` | ![CRYO](docs/assets/CRYO.png) |
 
 ### Obstáculos
 
