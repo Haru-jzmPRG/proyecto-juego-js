@@ -684,6 +684,19 @@ class Renderer {
   /* ── Obstáculo ── */
   _obs(ctx, px, py, cell, t) {
     if (cell < 5) { ctx.fillStyle = t.obsB; ctx.fillRect(px, py, cell, cell); return; }
+    /* Si hay imagen de obstáculo y el tablero está rotado, dibujar sin rotar */
+    if (imgObstaculo.src && imgObstaculo.complete && imgObstaculo.naturalWidth > 0) {
+      if (this._rotated) {
+        ctx.save();
+        const cx = px + cell / 2, cy = py + cell / 2;
+        ctx.translate(cx, cy); ctx.rotate(-Math.PI / 2); ctx.translate(-cx, -cy);
+        ctx.drawImage(imgObstaculo, px, py, cell, cell);
+        ctx.restore();
+      } else {
+        ctx.drawImage(imgObstaculo, px, py, cell, cell);
+      }
+      return;
+    }
     const s = Math.max(1, Math.floor(cell * 0.14));
     const s2 = Math.max(1, Math.floor(cell * 0.07));
     const reg = getActiveRegion();
@@ -1036,8 +1049,17 @@ class Renderer {
         const img = imgCache[cacheKey];
 
         if (img && img.complete && img.naturalWidth > 0) {
-          /* Imagen cargada correctamente */
-          ctx.drawImage(img, px, py, cell, cell);
+          /* Imagen cargada correctamente — contra-rotamos si el tablero está rotado
+             para que el sprite se vea siempre derecho */
+          if (this._rotated) {
+            ctx.save();
+            const cx = px + cell / 2, cy = py + cell / 2;
+            ctx.translate(cx, cy); ctx.rotate(-Math.PI / 2); ctx.translate(-cx, -cy);
+            ctx.drawImage(img, px, py, cell, cell);
+            ctx.restore();
+          } else {
+            ctx.drawImage(img, px, py, cell, cell);
+          }
           ctx.save(); ctx.globalAlpha = 0.12; ctx.fillStyle = elCol;
           ctx.fillRect(px, py, cell, cell); ctx.restore();
         } else if (img && !img.complete) {
