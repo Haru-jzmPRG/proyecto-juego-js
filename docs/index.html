@@ -78,7 +78,7 @@
 
         <div class="char-count">
           <div class="count-item">
-            <div class="count-icon malo">&#216;</div>
+            <div class="count-icon malo" id="icon-malo">&#216;</div>
             <div>
               <div style="display:flex;align-items:center;gap:6px;">
                 <span class="count-num" id="malos-count">40</span>
@@ -186,7 +186,7 @@
 
         <div class="char-count">
           <div class="count-item">
-            <div class="count-icon bueno">&#223;</div>
+            <div class="count-icon bueno" id="icon-bueno">&#223;</div>
             <div>
               <div style="display:flex;align-items:center;gap:6px;">
                 <span class="count-num" id="buenos-count">40</span>
@@ -292,6 +292,38 @@
         }
       });
 
+      // Iconos de facción según elemento de la región
+      // ─── ASSETS DE ICONOS ─────────────────────────────────────────
+      // Cuando tengas las imágenes de los iconos, pon las rutas aquí.
+      // Formato: { malo: 'assets/icono_malo_REGION.png', bueno: 'assets/icono_bueno_REGION.png' }
+      // Si la ruta está vacía ('') se usará el emoji/símbolo de texto como fallback.
+      var ICONOS_REGION = {
+        mondstadt: { malo: '', bueno: 'assets/ANEMO.png', elementoMalo: '&#9898;', elementoBueno: '&#9898;' },
+        liyue: { malo: '', bueno: '', elementoMalo: '&#9830;', elementoBueno: '&#9830;' },
+        inazuma: { malo: '', bueno: 'assets/ELECTRO.png', elementoMalo: '&#9889;', elementoBueno: '&#9889;' },
+        sumeru: { malo: '', bueno: '', elementoMalo: '&#9752;', elementoBueno: '&#9752;' },
+        fontaine: { malo: '', bueno: 'assets/HYDRO.png', elementoMalo: '&#9685;', elementoBueno: '&#9685;' },
+        natlan: { malo: '', bueno: 'assets/PYRO.png', elementoMalo: '&#9733;', elementoBueno: '&#9733;' },
+        snezhnaya: { malo: '', bueno: '', elementoMalo: '&#10052;', elementoBueno: '&#10052;' },
+      };
+      var iconDef = ICONOS_REGION[key] || ICONOS_REGION.mondstadt;
+      var iconMaloEl = document.getElementById('icon-malo');
+      var iconBuenoEl = document.getElementById('icon-bueno');
+      if (iconMaloEl) {
+        if (iconDef.malo) {
+          iconMaloEl.innerHTML = '<img src="' + iconDef.malo + '" style="width:100%;height:100%;object-fit:contain;image-rendering:pixelated;">';
+        } else {
+          iconMaloEl.innerHTML = iconDef.elementoMalo;
+        }
+      }
+      if (iconBuenoEl) {
+        if (iconDef.bueno) {
+          iconBuenoEl.innerHTML = '<img src="' + iconDef.bueno + '" style="width:100%;height:100%;object-fit:contain;image-rendering:pixelated;">';
+        } else {
+          iconBuenoEl.innerHTML = iconDef.elementoBueno;
+        }
+      }
+
       // Redibujar canvas con el nuevo tema
       if (typeof renderer !== 'undefined' && renderer) {
         renderer.draw(typeof todos !== 'undefined' ? todos : []);
@@ -331,6 +363,9 @@
         toggleBtn.classList.remove('open');
       }
     });
+
+    // Aplicar iconos de la región inicial al cargar
+    setRegion(currentRegion);
   </script>
 </body>
 

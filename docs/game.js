@@ -48,19 +48,11 @@ const Arma = {
 };
 
 /* ============================================================
-   SVG DATA URIs — imágenes temporales (borrar.svg, raiz.svg, xraiz.svg)
+   IMÁGENES DE PERSONAJES Y OBSTÁCULOS
+   Añade o cambia las rutas cuando tengas más assets.
+   Si un elemento no tiene imagen, usa '' y se dibujará
+   el fallback de formas geométricas automáticamente.
    ============================================================ */
-const SVG_OBSTACULO = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj4KICA8dGV4dCB4PSI1MCIgeT0iNjUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IndoaXRlIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iNTAiIGZvbnQtd2VpZ2h0PSJub3JtYWwiPuKMqzwvdGV4dD4KPC9zdmc+';
-const SVG_MALO      = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj4KICA8dGV4dCB4PSI1MCIgeT0iNjUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IndoaXRlIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iNDAiIGZvbnQtd2VpZ2h0PSJub3JtYWwiPgogICAgPHRzcGFuIGZvbnQtc2l6ZT0iNDUiIGR5PSIwIj7iiJo8L3RzcGFuPjx0c3BhbiBkeD0iOCI+eDwvdHNwYW4+CiAgPC90ZXh0Pgo8L3N2Zz4=';
-const SVG_BUENO     = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj4KICA8dGV4dCB4PSI1MCIgeT0iNjUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IndoaXRlIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iNDAiIGZvbnQtd2VpZ2h0PSJub3JtYWwiPgogICAgeDx0c3BhbiBmb250LXNpemU9IjMwIiBkeT0iLTEwIj4yPC90c3Bhbj4KICA8L3RleHQ+Cjwvc3ZnPg==';
-
-/* ============================================================
-   IMÁGENES POR ELEMENTO — COMENTADO para activar cuando tengas
-   los assets definitivos. Cuando los tengas listos:
-   1. Descomenta este bloque y añade las rutas reales.
-   2. Descomenta también "const imgCache = {};" más abajo.
-   3. En Renderer.draw(), busca "SECCIÓN COMENTADA" y sigue las instrucciones.
-
 const IMG_MALOS = {
   PYRO:    'assets/malo_pyro.png',
   HYDRO:   'assets/malo_hydro.png',
@@ -71,21 +63,19 @@ const IMG_MALOS = {
   CRYO:    'assets/malo_cryo.png',
 };
 const IMG_BUENOS = {
-  PYRO:    'assets/bueno_pyro.png',
-  HYDRO:   'assets/bueno_hydro.png',
-  ELECTRO: 'assets/bueno_electro.png',
-  DENDRO:  'assets/bueno_dendro.png',
-  ANEMO:   'assets/bueno_anemo.png',
-  GEO:     'assets/bueno_geo.png',
-  CRYO:    'assets/bueno_cryo.png',
+  PYRO:    'assets/PYRO.png',
+  HYDRO:   'assets/HYDRO.png',
+  ELECTRO: 'assets/ELECTRO.png',
+  DENDRO:  'assets/DENDRO.png',
+  ANEMO:   'assets/ANEMO.png',
+  GEO:     'assets/GEO.png',
+  CRYO:    'assets/CRYO.png',
 };
 const imgCache = {};
-============================================================ */
 
-/* Pre-cargar imágenes temporales actuales */
-const imgObstaculo = new Image(); imgObstaculo.src = SVG_OBSTACULO;
-const imgMalo      = new Image(); imgMalo.src      = SVG_MALO;
-const imgBueno     = new Image(); imgBueno.src     = SVG_BUENO;
+/* Obstáculo — pon la ruta a tu imagen o deja '' para el dibujado procedural */
+const imgObstaculo = new Image();
+imgObstaculo.src = ''; // ej: 'assets/obstaculo.png'
 
 /* ============================================================
    CLASE Posicion
@@ -574,8 +564,94 @@ class Renderer {
     ctx.restore();
   }
 
+  /* ════════════════════════════════════════════════════════
+     SPRITES DE BORDE POR REGIÓN
+     ─────────────────────────────────────────────────────
+     Cuando tengas los assets diseñados, pon las rutas aquí.
+     Cada región necesita 6 imágenes (misma resolución cuadrada):
+       h  → tile horizontal  (se repite en top y bottom)
+       v  → tile vertical    (se repite en left y right)
+       tl → esquina top-left
+       tr → esquina top-right
+       bl → esquina bottom-left
+       br → esquina bottom-right
+
+     Ejemplo de nombres de archivo sugeridos:
+       assets/bordes/inazuma_h.png
+       assets/bordes/inazuma_v.png
+       assets/bordes/inazuma_tl.png  etc.
+
+     Si una ruta está vacía ('') se usa el dibujo procedural.
+     ════════════════════════════════════════════════════════ */
+  static get BORDER_SPRITES() {
+    return {
+      mondstadt: { h: 'assets/mondstadt_horizontal.png', v: 'assets/mondstadt_vertical.png', tl: 'assets/mondstadt_esquina_sup_izq.png', tr: 'assets/mondstadt_esquina_sup_der.png', bl: 'assets/mondstadt_esquina_inf_izq.png', br: 'assets/mondstadt_esquina_inf_der.png' },
+      liyue:     { h:'assets/liyue_horizontal.png', v:'assets/liyue_vertical.png', tl:'assets/liyue_esquina_sup_izq.png', tr:'assets/liyue_esquina_sup_der.png', bl:'assets/liyue_esquina_inf_izq.png', br:'assets/liyue_esquina_inf_der.png' },
+      inazuma:   { h:'assets/inazuma_horizontal.png', v:'assets/inazuma_vertical.png', tl:'assets/inazuma_esquina_sup_izq.png', tr:'assets/inazuma_esquina_sup_der.png', bl:'assets/inazuma_esquina_inf_izq.png', br:'assets/inazuma_esquina_inf_der.png' },
+      sumeru:    { h:'assets/sumeru_horizontal.png', v:'assets/sumeru_vertical.png', tl:'assets/sumeru_esquina_sup_izq.png', tr:'assets/sumeru_esquina_sup_der.png', bl:'assets/sumeru_esquina_inf_izq.png', br:'assets/sumeru_esquina_inf_der.png' },
+      fontaine:  { h:'assets/fontaine_horizontal.png', v:'assets/fontaine_vertical.png', tl:'assets/fontaine_esquina_sup_izq.png', tr:'assets/fontaine_esquina_sup_der.png', bl:'assets/fontaine_esquina_inf_izq.png', br:'assets/fontaine_esquina_inf_der.png' },
+      natlan:    { h:'assets/natlan_horizontal.png', v:'assets/natlan_vertical.png', tl:'assets/natlan_esquina_sup_izq.png', tr:'assets/natlan_esquina_sup_der.png', bl:'assets/natlan_esquina_inf_izq.png', br:'assets/natlan_esquina_inf_der.png' },
+      snezhnaya: { h:'assets/snezhnaya_horizontal.png', v:'assets/snezhnaya_vertical.png', tl:'assets/snezhnaya_esquina_sup_izq.png', tr:'assets/snezhnaya_esquina_sup_der.png', bl:'assets/snezhnaya_esquina_inf_izq.png', br:'assets/snezhnaya-esquina_inf_der.png' },
+    };
+  }
+
+  /* Caché de imágenes de borde (se rellena automáticamente) */
+  _getBorderImg(reg, key) {
+    if (!this._borderCache) this._borderCache = {};
+    const ck = reg + '_' + key;
+    if (this._borderCache[ck] !== undefined) return this._borderCache[ck];
+    const src = (Renderer.BORDER_SPRITES[reg] || {})[key] || '';
+    if (!src) { this._borderCache[ck] = null; return null; }
+    const img = new Image();
+    img.src = src;
+    this._borderCache[ck] = img;
+    return img;
+  }
+
+  /* Determina qué tipo de tile de borde es esta celda */
+  _borderType(y, x, rows, cols) {
+    const top    = y === 0;
+    const bottom = y === rows - 1;
+    const left   = x === 0;
+    const right  = x === cols - 1;
+    if (top    && left)  return 'tl';
+    if (top    && right) return 'tr';
+    if (bottom && left)  return 'bl';
+    if (bottom && right) return 'br';
+    if (top    || bottom) return 'h';
+    return 'v';
+  }
+
   /* ── Muro perimetral ── */
   _wall(ctx, px, py, cell, t, y, x, rows, cols) {
+    const reg  = getActiveRegion();
+    const btype = this._borderType(y, x, rows, cols);
+    const img  = this._getBorderImg(reg, btype);
+
+    if (img) {
+      /* ── Sprite de borde cargado ── */
+      if (img.complete && img.naturalWidth > 0) {
+        ctx.drawImage(img, px, py, cell, cell);
+        /* Glow interior sutil encima del sprite */
+        const isInner =
+          (x === 1 && y >= 1 && y <= rows-2) ||
+          (x === cols-2 && y >= 1 && y <= rows-2) ||
+          (y === 1 && x >= 1 && x <= cols-2) ||
+          (y === rows-2 && x >= 1 && x <= cols-2);
+        if (isInner) {
+          ctx.save();
+          ctx.globalAlpha = 0.25; ctx.fillStyle = t.wallGlow;
+          ctx.fillRect(px, py, cell, cell);
+          ctx.restore();
+        }
+      } else {
+        /* Imagen cargando — relleno temporal del color base */
+        ctx.fillStyle = t.wallB; ctx.fillRect(px, py, cell, cell);
+      }
+      return;
+    }
+
+    /* ── Dibujo procedural (mientras no haya sprite) ── */
     const s = Math.max(1, Math.floor(cell * 0.17));
     ctx.fillStyle = t.wallB; ctx.fillRect(px, py, cell, cell);
     ctx.save();
@@ -583,13 +659,11 @@ class Renderer {
     ctx.fillRect(px, py, cell, s);
     ctx.globalAlpha = 0.3; ctx.fillStyle = t.wallA;
     ctx.fillRect(px, py, s, cell);
-    /* Línea de brillo en el borde interior de la arena
-       (como en la imagen de Inazuma: borde morado resplandeciente) */
     const isInnerEdge =
-      (x === 1 && y >= 1 && y <= rows - 2) ||
-      (x === cols - 2 && y >= 1 && y <= rows - 2) ||
-      (y === 1 && x >= 1 && x <= cols - 2) ||
-      (y === rows - 2 && x >= 1 && x <= cols - 2);
+      (x === 1 && y >= 1 && y <= rows-2) ||
+      (x === cols-2 && y >= 1 && y <= rows-2) ||
+      (y === 1 && x >= 1 && x <= cols-2) ||
+      (y === rows-2 && x >= 1 && x <= cols-2);
     if (isInnerEdge) {
       ctx.globalAlpha = 0.4; ctx.fillStyle = t.wallGlow;
       ctx.fillRect(px, py, cell, cell);
@@ -929,30 +1003,33 @@ class Renderer {
         ctx.beginPath(); ctx.arc(px + cell/2, py + cell/2, cell*0.34, 0, Math.PI*2); ctx.stroke();
         ctx.restore();
 
-        /* Sprite */
-        const img = p.tipo === 'malo' ? imgMalo : imgBueno;
-
-        /* -------------------------------------------------------
-           SECCIÓN COMENTADA: imágenes individuales por elemento
-           Cuando tengas los assets 16x16 o 32x32:
-           1. Descomenta IMG_MALOS, IMG_BUENOS e imgCache arriba.
-           2. Comenta las 2 líneas de "const img = ..." de arriba.
-           3. Descomenta el bloque de abajo.
-
-        const imgMap = p.tipo==='malo' ? IMG_MALOS : IMG_BUENOS;
+        /* Sprite — imagen por elemento, con fallback a formas si no existe */
+        const imgMap  = p.tipo === 'malo' ? IMG_MALOS : IMG_BUENOS;
         const cacheKey = p.tipo + '_' + p.vision;
-        if(!imgCache[cacheKey]){
-          imgCache[cacheKey] = new Image();
-          imgCache[cacheKey].src = imgMap[p.vision];
+        if (!imgCache[cacheKey]) {
+          const src = imgMap[p.vision] || '';
+          if (src) {
+            imgCache[cacheKey] = new Image();
+            imgCache[cacheKey].src = src;
+          } else {
+            imgCache[cacheKey] = null; // sin asset → fallback
+          }
         }
         const img = imgCache[cacheKey];
-        ------------------------------------------------------- */
 
-        if (img.complete) {
+        if (img && img.complete && img.naturalWidth > 0) {
+          /* Imagen cargada correctamente */
           ctx.drawImage(img, px, py, cell, cell);
-          ctx.save(); ctx.globalAlpha = 0.15; ctx.fillStyle = elCol;
+          ctx.save(); ctx.globalAlpha = 0.12; ctx.fillStyle = elCol;
           ctx.fillRect(px, py, cell, cell); ctx.restore();
+        } else if (img && !img.complete) {
+          /* Imagen en carga — fallback temporal */
+          ctx.save();
+          ctx.fillStyle = elCol; ctx.globalAlpha = 0.5;
+          ctx.fillRect(px, py, cell, cell);
+          ctx.restore();
         } else {
+          /* Sin asset definido — fallback permanente: cabeza + cuerpo */
           ctx.save();
           ctx.fillStyle = elCol; ctx.globalAlpha = 0.9;
           ctx.beginPath(); ctx.arc(px+cell/2, py+cell*0.38, cell*0.24, 0, Math.PI*2); ctx.fill();

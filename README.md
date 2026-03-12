@@ -95,13 +95,13 @@ Espada → Catalizador → Arco → Lanza → Mandoble → Espada
 
 | Elemento | Archivo esperado | Vista previa |
 |---|---|---|
-| Pyro | `assets/bueno_pyro.svg` | *(pendiente)* |
-| Hydro | `assets/bueno_hydro.svg` | *(pendiente)* |
-| Electro | `assets/bueno_electro.svg` | *(pendiente)* |
-| Dendro | `assets/bueno_dendro.svg` | *(pendiente)* |
-| Anemo | `assets/bueno_anemo.svg` | *(pendiente)* |
-| Geo | `assets/bueno_geo.svg` | *(pendiente)* |
-| Cryo | `assets/bueno_cryo.svg` | *(pendiente)* |
+| Pyro | `assets/PYRO.png` | ![PYRO](assets/PYRO.png) |
+| Hydro | `assets/HYDRO.png` | ![HYDRO](assets/HYDRO.png) |
+| Electro | `assets/ELECTRO.png` | ![ELECTRO](assets/ELECTRO.png) |
+| Dendro | `assets/DENDRO.png` | ![DENDRO](assets/DENDRO.png) |
+| Anemo | `assets/ANEMO.png` | ![ANEMO](assets/ANEMO.png) |
+| Geo | `assets/GEO.png` | ![GEO](assets/GEO.png) |
+| Cryo | `assets/CRYO.png` | ![CRYO](assets/CRYO.png) |
 
 ### Obstáculos
 
