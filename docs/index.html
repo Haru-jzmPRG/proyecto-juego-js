@@ -15,7 +15,10 @@
   <div class="bg-stars"></div>
   <div class="bg-deco"></div>
 
-  <!-- SELECTOR DE REGION -->
+  <!-- APP -->
+  <div id="app">
+
+    <!-- SELECTOR DE REGION -->
   <div id="region-selector">
     <button id="region-toggle" aria-label="Elegir region">
       <span class="toggle-icon" id="toggle-icon">&#10022;</span>
@@ -60,9 +63,6 @@
       </div>
     </div>
   </div>
-
-  <!-- APP -->
-  <div id="app">
 
     <header>
       <div class="title-main">Genshin Battle Sim</div>
@@ -300,10 +300,10 @@
       var ICONOS_REGION = {
         mondstadt: { malo: '', bueno: 'assets/ANEMO.png', elementoMalo: '&#9898;', elementoBueno: '&#9898;' },
         liyue: { malo: '', bueno: '', elementoMalo: '&#9830;', elementoBueno: '&#9830;' },
-        inazuma: { malo: '', bueno: 'assets/ELECTRO.png', elementoMalo: '&#9889;', elementoBueno: '&#9889;' },
+        inazuma: { malo: '', bueno: 'assets/ELECTRO.png', elementoMalo: '&#9889;', elementoBueno: '&#9889;', elementoBueno2: '&#9889;' },
         sumeru: { malo: '', bueno: '', elementoMalo: '&#9752;', elementoBueno: '&#9752;' },
-        fontaine: { malo: '', bueno: 'assets/HYDRO.png', elementoMalo: '&#9685;', elementoBueno: '&#9685;' },
-        natlan: { malo: '', bueno: 'assets/PYRO.png', elementoMalo: '&#9733;', elementoBueno: '&#9733;' },
+        fontaine: { malo: '', bueno: 'assets/HYDRO.png', elementoMalo: '&#9685;', elementoBueno: '&#9685;', elementoBueno2: '&#9685;' },
+        natlan: { malo: '', bueno: 'assets/PYRO.png', elementoMalo: '&#9733;', elementoBueno: '&#9733;', elementoBueno2: '&#9733;' },
         snezhnaya: { malo: '', bueno: '', elementoMalo: '&#10052;', elementoBueno: '&#10052;' },
       };
       var iconDef = ICONOS_REGION[key] || ICONOS_REGION.mondstadt;

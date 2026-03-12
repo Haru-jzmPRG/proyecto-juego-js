@@ -451,10 +451,16 @@ class Renderer {
   }
 
   resize() {
-    const maxW = this.canvas.parentElement.clientWidth - 16;
-    this.cell = Math.max(4, Math.floor(maxW / this.board.cols));
-    this.canvas.width  = this.board.cols * this.cell;
-    this.canvas.height = this.board.rows * this.cell;
+    const maxW = this.canvas.parentElement.clientWidth - 8;
+    // En móvil (pantalla estrecha) rotamos el tablero: usamos rows como ancho
+    // y cols como alto, para aprovechar mejor el espacio vertical.
+    const isMobile = window.innerWidth < 960;
+    const dispCols = isMobile ? this.board.rows : this.board.cols;
+    const dispRows = isMobile ? this.board.cols : this.board.rows;
+    this.cell = Math.max(6, Math.floor(maxW / dispCols));
+    this.canvas.width  = dispCols * this.cell;
+    this.canvas.height = dispRows * this.cell;
+    this._rotated = isMobile;
     this._parts = null;
   }
 
@@ -586,12 +592,12 @@ class Renderer {
   static get BORDER_SPRITES() {
     return {
       mondstadt: { h: 'assets/mondstadt_horizontal.png', v: 'assets/mondstadt_vertical.png', tl: 'assets/mondstadt_esquina_sup_izq.png', tr: 'assets/mondstadt_esquina_sup_der.png', bl: 'assets/mondstadt_esquina_inf_izq.png', br: 'assets/mondstadt_esquina_inf_der.png' },
-      liyue:     { h:'assets/liyue_horizontal.png', v:'assets/liyue_vertical.png', tl:'assets/liyue_esquina_sup_izq.png', tr:'assets/liyue_esquina_sup_der.png', bl:'assets/liyue_esquina_inf_izq.png', br:'assets/liyue_esquina_inf_der.png' },
-      inazuma:   { h:'assets/inazuma_horizontal.png', v:'assets/inazuma_vertical.png', tl:'assets/inazuma_esquina_sup_izq.png', tr:'assets/inazuma_esquina_sup_der.png', bl:'assets/inazuma_esquina_inf_izq.png', br:'assets/inazuma_esquina_inf_der.png' },
-      sumeru:    { h:'assets/sumeru_horizontal.png', v:'assets/sumeru_vertical.png', tl:'assets/sumeru_esquina_sup_izq.png', tr:'assets/sumeru_esquina_sup_der.png', bl:'assets/sumeru_esquina_inf_izq.png', br:'assets/sumeru_esquina_inf_der.png' },
-      fontaine:  { h:'assets/fontaine_horizontal.png', v:'assets/fontaine_vertical.png', tl:'assets/fontaine_esquina_sup_izq.png', tr:'assets/fontaine_esquina_sup_der.png', bl:'assets/fontaine_esquina_inf_izq.png', br:'assets/fontaine_esquina_inf_der.png' },
-      natlan:    { h:'assets/natlan_horizontal.png', v:'assets/natlan_vertical.png', tl:'assets/natlan_esquina_sup_izq.png', tr:'assets/natlan_esquina_sup_der.png', bl:'assets/natlan_esquina_inf_izq.png', br:'assets/natlan_esquina_inf_der.png' },
-      snezhnaya: { h:'assets/snezhnaya_horizontal.png', v:'assets/snezhnaya_vertical.png', tl:'assets/snezhnaya_esquina_sup_izq.png', tr:'assets/snezhnaya_esquina_sup_der.png', bl:'assets/snezhnaya_esquina_inf_izq.png', br:'assets/snezhnaya-esquina_inf_der.png' },
+      liyue:     { h:'', v:'', tl:'', tr:'', bl:'', br:'' },
+      inazuma:   { h:'', v:'', tl:'', tr:'', bl:'', br:'' },
+      sumeru:    { h:'', v:'', tl:'', tr:'', bl:'', br:'' },
+      fontaine:  { h:'', v:'', tl:'', tr:'', bl:'', br:'' },
+      natlan:    { h:'', v:'', tl:'', tr:'', bl:'', br:'' },
+      snezhnaya: { h:'', v:'', tl:'', tr:'', bl:'', br:'' },
     };
   }
 
@@ -896,7 +902,19 @@ class Renderer {
     const W   = this.canvas.width, H = this.canvas.height;
     _frame++; const fr = _frame;
 
-    this._ensureParts(W, H, reg);
+    // En móvil el canvas está físicamente rotado 90°:
+    // el canvas tiene dimensión (rows*cell) × (cols*cell) pero los
+    // personajes viven en coordenadas (cols×rows). Rotamos el contexto
+    // para que todo el código de dibujado funcione sin cambios.
+    const rotated = !!this._rotated;
+    ctx.save();
+    if (rotated) {
+      ctx.translate(W, 0);
+      ctx.rotate(Math.PI / 2);
+      // Tras rotar 90°, el "nuevo" ancho es H y el "nuevo" alto es W
+    }
+
+    this._ensureParts(rotated ? H : W, rotated ? W : H, reg);
 
     /* 1. FONDO */
     const bg = ctx.createLinearGradient(0, 0, 0, H);
@@ -1047,6 +1065,9 @@ class Renderer {
         ctx.fillStyle = elCol; ctx.fillRect(px, py, cell, cell);
       }
     }
+
+    // Restaurar transformación de rotación móvil
+    ctx.restore();
   }
 }
 

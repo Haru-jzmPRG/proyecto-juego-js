@@ -515,3 +515,39 @@ header::after {
 
 @media (max-width:960px) { .main-content{grid-template-columns:1fr;} .side-panel{display:none;} #region-selector{top:8px;right:8px;} }
 @media (max-width:480px) { .btn{padding:7px 13px;font-size:.65rem;} .title-main{font-size:1.3rem;} }
+/* ════════════════════════════════════
+   RESPONSIVE MÓVIL
+════════════════════════════════════ */
+@media (max-width: 960px) {
+  /* El selector de región sale del fixed y entra en el flujo,
+     centrado encima del header para que no solape el título */
+  #region-selector {
+    position: relative;
+    top: auto; right: auto;
+    align-items: center;
+    margin: 12px auto 0;
+    width: fit-content;
+  }
+
+  /* El app pasa a columna simple: selector → header → tablero → controles */
+  #app {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  /* Header debajo del selector, padding reducido */
+  header { padding: 6px 0 4px; }
+
+  /* Tablero ocupa todo el ancho */
+  .board-wrap { width: 100%; }
+  #board-container { padding: 0; }
+}
+
+@media (max-width: 480px) {
+  .btn { padding: 7px 13px; font-size: .65rem; }
+  .title-main { font-size: 1.3rem; }
+  .title-sub, .region-subtitle { font-size: .7rem; }
+}
