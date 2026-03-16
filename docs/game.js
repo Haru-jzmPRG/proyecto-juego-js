@@ -452,12 +452,21 @@ class Renderer {
 
   resize() {
     const maxW = this.canvas.parentElement.clientWidth - 8;
-    // En móvil (pantalla estrecha) rotamos el tablero: usamos rows como ancho
-    // y cols como alto, para aprovechar mejor el espacio vertical.
     const isMobile = window.innerWidth < 960;
     const dispCols = isMobile ? this.board.rows : this.board.cols;
     const dispRows = isMobile ? this.board.cols : this.board.rows;
-    this.cell = Math.max(6, Math.floor(maxW / dispCols));
+    const cellByW = Math.floor(maxW / dispCols);
+    // Limitamos por altura en ambos casos para evitar que el tablero
+    // se salga de la pantalla
+    const headerEl   = document.querySelector('header');
+    const controlsEl = document.querySelector('.controls');
+    const headerH  = headerEl   ? headerEl.offsetHeight : 100;
+    const ctrlH    = controlsEl ? controlsEl.offsetHeight : 55;
+    const appEl    = document.getElementById('app');
+    const appPad   = appEl ? parseInt(getComputedStyle(appEl).paddingTop) * 2 : 40;
+    const maxH     = window.innerHeight - headerH - ctrlH - appPad - 28 - 4;
+    const cellByH  = Math.floor(maxH / dispRows);
+    this.cell = Math.max(6, Math.min(cellByW, cellByH));
     this.canvas.width  = dispCols * this.cell;
     this.canvas.height = dispRows * this.cell;
     this._rotated = isMobile;
@@ -692,6 +701,11 @@ class Renderer {
     const s = Math.max(1, Math.floor(cell * 0.14));
     const s2 = Math.max(1, Math.floor(cell * 0.07));
     const reg = getActiveRegion();
+    const _obsRotated = !!this._rotated;
+    if (_obsRotated) {
+      const cx = px + cell/2, cy = py + cell/2;
+      ctx.save(); ctx.translate(cx, cy); ctx.rotate(-Math.PI/2); ctx.translate(-cx, -cy);
+    }
 
     if (reg === 'inazuma' || reg === 'fontaine' || reg === 'snezhnaya') {
       /* Cristal cúbico semitransparente (como cubos en la imagen de Inazuma) */
@@ -721,6 +735,7 @@ class Renderer {
       ctx.beginPath(); ctx.arc(px + cell / 2, py + cell * 0.35, cell * 0.22, 0, Math.PI * 2); ctx.fill();
       ctx.restore();
     }
+    if (_obsRotated) ctx.restore();
   }
 
   /* ── Capa de ambiente ── */
@@ -1041,8 +1056,16 @@ class Renderer {
         const img = imgCache[cacheKey];
 
         if (img && img.complete && img.naturalWidth > 0) {
-          /* Imagen cargada correctamente */
-          ctx.drawImage(img, px, py, cell, cell);
+          /* Imagen cargada correctamente — contra-rotar en móvil */
+          if (rotated) {
+            ctx.save();
+            const cx = px + cell/2, cy = py + cell/2;
+            ctx.translate(cx, cy); ctx.rotate(-Math.PI/2); ctx.translate(-cx, -cy);
+            ctx.drawImage(img, px, py, cell, cell);
+            ctx.restore();
+          } else {
+            ctx.drawImage(img, px, py, cell, cell);
+          }
           ctx.save(); ctx.globalAlpha = 0.12; ctx.fillStyle = elCol;
           ctx.fillRect(px, py, cell, cell); ctx.restore();
         } else if (img && !img.complete) {
@@ -1054,6 +1077,10 @@ class Renderer {
         } else {
           /* Sin asset definido — fallback permanente: cabeza + cuerpo */
           ctx.save();
+          if (rotated) {
+            const cx = px + cell/2, cy = py + cell/2;
+            ctx.translate(cx, cy); ctx.rotate(-Math.PI/2); ctx.translate(-cx, -cy);
+          }
           ctx.fillStyle = elCol; ctx.globalAlpha = 0.9;
           ctx.beginPath(); ctx.arc(px+cell/2, py+cell*0.38, cell*0.24, 0, Math.PI*2); ctx.fill();
           ctx.fillStyle = haloC; ctx.globalAlpha = 0.75;
