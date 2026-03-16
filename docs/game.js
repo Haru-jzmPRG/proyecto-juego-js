@@ -597,7 +597,7 @@ class Renderer {
       sumeru:    { h:'assets/sumeru_horizontal.png', v:'assets/sumeru_vertical.png', tl:'assets/sumeru_esquina_sup_izq.png', tr:'assets/sumeru_esquina_sup_der.png', bl:'assets/sumeru_esquina_inf_izq.png', br:'assets/sumeru_esquina_inf_der.png' },
       fontaine:  { h:'assets/fontaine_horizontal.png', v:'assets/fontaine_vertical.png', tl:'assets/fontaine_esquina_sup_izq.png', tr:'assets/fontaine_esquina_sup_der.png', bl:'assets/fontaine_esquina_inf_izq.png', br:'assets/fontaine_esquina_inf_der.png' },
       natlan:    { h:'assets/natlan_horizontal.png', v:'assets/natlan_vertical.png', tl:'assets/natlan_esquina_sup_izq.png', tr:'assets/natlan_esquina_sup_der.png', bl:'assets/natlan_esquina_inf_izq.png', br:'assets/natlan_esquina_inf_der.png' },
-      snezhnaya: { h:'assets/snezhnaya_horizontal.png', v:'assets/snezhnaya_vertical.png', tl:'assets/snezhnaya_esquina_sup_izq.png', tr:'assets/snezhnaya_esquina_sup_der.png', bl:'assets/snezhnaya_esquina_inf_izq.png', br:'assets/snezhnaya_esquina_inf_der.png' },
+      snezhnaya: { h:'assets/snezhnaya_horizontal_sup.png', h_top:'assets/snezhnaya_horizontal_sup.png', h_bot:'assets/snezhnaya_horizontal_inf.png', v:'assets/snezhnaya_vertical_der.png', v_left:'assets/snezhnaya_vertical_izq.png', v_right:'assets/snezhnaya_vertical_der.png', tl:'assets/snezhnaya_esquina_sup_izq.png', tr:'assets/snezhnaya_esquina_sup_der.png', bl:'assets/snezhnaya_esquina_inf_izq.png', br:'assets/snezhnaya_esquina_inf_der.png' },
     };
   }
 
@@ -606,7 +606,10 @@ class Renderer {
     if (!this._borderCache) this._borderCache = {};
     const ck = reg + '_' + key;
     if (this._borderCache[ck] !== undefined) return this._borderCache[ck];
-    const src = (Renderer.BORDER_SPRITES[reg] || {})[key] || '';
+    const sprites = Renderer.BORDER_SPRITES[reg] || {};
+    // Fallback: si no hay clave específica (h_top, h_bot, v_left, v_right) usa la genérica
+    const fallback = { h_top:'h', h_bot:'h', v_left:'v', v_right:'v' };
+    const src = sprites[key] || sprites[fallback[key]] || '';
     if (!src) { this._borderCache[ck] = null; return null; }
     const img = new Image();
     img.src = src;
@@ -624,8 +627,10 @@ class Renderer {
     if (top    && right) return 'tr';
     if (bottom && left)  return 'bl';
     if (bottom && right) return 'br';
-    if (top    || bottom) return 'h';
-    return 'v';
+    if (top)    return 'h_top';
+    if (bottom) return 'h_bot';
+    if (left)   return 'v_left';
+    return 'v_right';
   }
 
   /* ── Muro perimetral ── */
@@ -684,19 +689,6 @@ class Renderer {
   /* ── Obstáculo ── */
   _obs(ctx, px, py, cell, t) {
     if (cell < 5) { ctx.fillStyle = t.obsB; ctx.fillRect(px, py, cell, cell); return; }
-    /* Si hay imagen de obstáculo y el tablero está rotado, dibujar sin rotar */
-    if (imgObstaculo.src && imgObstaculo.complete && imgObstaculo.naturalWidth > 0) {
-      if (this._rotated) {
-        ctx.save();
-        const cx = px + cell / 2, cy = py + cell / 2;
-        ctx.translate(cx, cy); ctx.rotate(-Math.PI / 2); ctx.translate(-cx, -cy);
-        ctx.drawImage(imgObstaculo, px, py, cell, cell);
-        ctx.restore();
-      } else {
-        ctx.drawImage(imgObstaculo, px, py, cell, cell);
-      }
-      return;
-    }
     const s = Math.max(1, Math.floor(cell * 0.14));
     const s2 = Math.max(1, Math.floor(cell * 0.07));
     const reg = getActiveRegion();
@@ -1049,17 +1041,8 @@ class Renderer {
         const img = imgCache[cacheKey];
 
         if (img && img.complete && img.naturalWidth > 0) {
-          /* Imagen cargada correctamente — contra-rotamos si el tablero está rotado
-             para que el sprite se vea siempre derecho */
-          if (this._rotated) {
-            ctx.save();
-            const cx = px + cell / 2, cy = py + cell / 2;
-            ctx.translate(cx, cy); ctx.rotate(-Math.PI / 2); ctx.translate(-cx, -cy);
-            ctx.drawImage(img, px, py, cell, cell);
-            ctx.restore();
-          } else {
-            ctx.drawImage(img, px, py, cell, cell);
-          }
+          /* Imagen cargada correctamente */
+          ctx.drawImage(img, px, py, cell, cell);
           ctx.save(); ctx.globalAlpha = 0.12; ctx.fillStyle = elCol;
           ctx.fillRect(px, py, cell, cell); ctx.restore();
         } else if (img && !img.complete) {
