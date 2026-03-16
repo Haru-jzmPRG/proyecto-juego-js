@@ -455,18 +455,7 @@ class Renderer {
     const isMobile = window.innerWidth < 960;
     const dispCols = isMobile ? this.board.rows : this.board.cols;
     const dispRows = isMobile ? this.board.cols : this.board.rows;
-    const cellByW = Math.floor(maxW / dispCols);
-    // Limitamos por altura en ambos casos para evitar que el tablero
-    // se salga de la pantalla
-    const headerEl   = document.querySelector('header');
-    const controlsEl = document.querySelector('.controls');
-    const headerH  = headerEl   ? headerEl.offsetHeight : 100;
-    const ctrlH    = controlsEl ? controlsEl.offsetHeight : 55;
-    const appEl    = document.getElementById('app');
-    const appPad   = appEl ? parseInt(getComputedStyle(appEl).paddingTop) * 2 : 40;
-    const maxH     = window.innerHeight - headerH - ctrlH - appPad - 28 - 4;
-    const cellByH  = Math.floor(maxH / dispRows);
-    this.cell = Math.max(6, Math.min(cellByW, cellByH));
+    this.cell = Math.max(6, Math.floor(maxW / dispCols));
     this.canvas.width  = dispCols * this.cell;
     this.canvas.height = dispRows * this.cell;
     this._rotated = isMobile;
