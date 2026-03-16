@@ -248,7 +248,7 @@
   <script src="game.js"></script>
   <script>
     var REGIONS = {
-      mondstadt: { name: 'Mondstadt', subtitle: 'Mondstadt - Ciudad de la Libertad', icon: assets/ANEMO.png, corner: '\u25C6' },
+      mondstadt: { name: 'Mondstadt', subtitle: 'Mondstadt - Ciudad de la Libertad', icon: 'assets/ANEMO.png', corner: '\u25C6' },
       liyue: { name: 'Liyue', subtitle: 'Liyue - Puerto del Comercio', icon: 'assets/GEOM.png', corner: '\u2756' },
       inazuma: { name: 'Inazuma', subtitle: 'Inazuma - Isla del Relampago Eterno', icon: 'assets/ELECTRO.png', corner: '\u534D' },
       sumeru: { name: 'Sumeru', subtitle: 'Sumeru - Tierra del Conocimiento', icon: 'assets/DENDRO.png', corner: '\u273F' },
@@ -274,7 +274,12 @@
 
       // Textos
       document.getElementById('region-subtitle').textContent = r.subtitle;
-      document.getElementById('toggle-icon').textContent = r.icon;
+      const _iconEl = document.getElementById('toggle-icon');
+      if (r.icon && (r.icon.endsWith('.png') || r.icon.endsWith('.webp'))) {
+        _iconEl.innerHTML = '<img src="' + r.icon + '" style="width:18px;height:18px;object-fit:contain;vertical-align:middle;image-rendering:pixelated;">';
+      } else {
+        _iconEl.textContent = r.icon;
+      }
       document.getElementById('toggle-label').textContent = r.name;
 
       // Esquinas del tablero

@@ -30,7 +30,6 @@
   --r-stars: 0;
 }
 
-/* ── MONDSTADT ── campo verde, cielo azul — CLARO */
 [data-region="mondstadt"] {
   --r-dark: 0;
   --r-bg1: #a8d898; --r-bg2: #78b870;
@@ -49,7 +48,6 @@
   --r-stars: 0;
 }
 
-/* ── LIYUE ── cálido dorado — CLARO */
 [data-region="liyue"] {
   --r-dark: 0;
   --r-bg1: #e8c070; --r-bg2: #c09040;
@@ -68,7 +66,6 @@
   --r-stars: 0;
 }
 
-/* ── INAZUMA ── noche morada — OSCURO */
 [data-region="inazuma"] {
   --r-dark: 1;
   --r-bg1: #1e0a2e; --r-bg2: #0e0418;
@@ -87,7 +84,6 @@
   --r-stars: 1;
 }
 
-/* ── SUMERU ── selva verde vibrante — CLARO */
 [data-region="sumeru"] {
   --r-dark: 0;
   --r-bg1: #60a038; --r-bg2: #387820;
@@ -106,7 +102,6 @@
   --r-stars: 0;
 }
 
-/* ── FONTAINE ── azul acuático, día — CLARO */
 [data-region="fontaine"] {
   --r-dark: 0;
   --r-bg1: #70b8e8; --r-bg2: #4090c0;
@@ -125,7 +120,6 @@
   --r-stars: 0;
 }
 
-/* ── NATLAN ── noche volcánica — OSCURO */
 [data-region="natlan"] {
   --r-dark: 1;
   --r-bg1: #300a00; --r-bg2: #180400;
@@ -144,7 +138,6 @@
   --r-stars: 1;
 }
 
-/* ── SNEZHNAYA ── noche ártica — OSCURO */
 [data-region="snezhnaya"] {
   --r-dark: 1;
   --r-bg1: #0a1830; --r-bg2: #060e1e;
@@ -163,9 +156,6 @@
   --r-stars: 1;
 }
 
-/* ════════════════════════════════════
-   BODY
-════════════════════════════════════ */
 body {
   font-family: var(--r-font-ui);
   color: var(--r-text);
@@ -175,14 +165,12 @@ body {
   transition: background 0.7s, color 0.4s;
 }
 
-/* Fondo dinámico */
 .bg-layer {
   position: fixed; inset: 0; z-index: 0;
   background: linear-gradient(160deg, var(--r-bg1) 0%, var(--r-bg2) 100%);
   transition: background 0.9s;
 }
 
-/* Estrellas solo para regiones oscuras */
 .bg-stars {
   position: fixed; inset: 0; z-index: 0; pointer-events: none;
   opacity: 0; transition: opacity 1s;
@@ -210,7 +198,6 @@ body {
     radial-gradient(1px 1px at 60% 45%, rgba(255,255,255,0.4) 0%, transparent 100%);
 }
 
-/* Orbes de luz ambiente */
 .bg-deco {
   position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden;
 }
@@ -231,9 +218,6 @@ body {
 @keyframes orb1 { from{transform:translate(0,0) scale(1)} to{transform:translate(6%,10%) scale(1.12)} }
 @keyframes orb2 { from{transform:translate(0,0) scale(1)} to{transform:translate(-7%,-7%) scale(1.1)} }
 
-/* ════════════════════════════════════
-   SELECTOR DE REGIÓN
-════════════════════════════════════ */
 #region-selector {
   position: fixed; top: 14px; right: 16px; z-index: 100;
   display: flex; flex-direction: column; align-items: flex-end; gap: 5px;
@@ -293,9 +277,6 @@ body {
 .region-option[data-r="natlan"]    .r-dot { background:#e86010; box-shadow:0 0 4px #e86010; }
 .region-option[data-r="snezhnaya"].r-dot  { background:#70b8f8; box-shadow:0 0 4px #70b8f8; }
 
-/* ════════════════════════════════════
-   LAYOUT
-════════════════════════════════════ */
 #app {
   position: relative; z-index: 1;
   max-width: 1400px; margin: 0 auto;
@@ -304,9 +285,6 @@ body {
   min-height: 100vh; gap: 14px;
 }
 
-/* ════════════════════════════════════
-   HEADER
-════════════════════════════════════ */
 header { text-align: center; padding: 22px 0 10px; }
 header::after {
   content: ''; display: block; height: 1px;
@@ -331,17 +309,11 @@ header::after {
   opacity: .65; transition: color .5s;
 }
 
-/* ════════════════════════════════════
-   GRID
-════════════════════════════════════ */
 .main-content {
   display: grid; grid-template-columns: 205px 1fr 205px;
   gap: 14px; align-items: start;
 }
 
-/* ════════════════════════════════════
-   PANELES LATERALES
-════════════════════════════════════ */
 .side-panel {
   background: var(--r-panel);
   border: 1px solid var(--r-panel-border);
@@ -366,20 +338,12 @@ header::after {
 .char-count { display:flex; flex-direction:column; gap:8px; margin-bottom:14px; }
 .count-item  { display:flex; align-items:center; gap:8px; }
 .count-icon  { width:24px; height:24px; border-radius:5px; display:flex; align-items:center; justify-content:center; font-size:11px; flex-shrink:0; overflow:hidden; }
-/* Color del icono extraído directamente del asset de cada elemento */
-/* Mondstadt → Anemo  #50a797 */
-[data-region="mondstadt"] .count-icon { background:rgba(80,167,151,0.25); border:1px solid rgba(80,167,151,0.5); }
-/* Liyue → Geo  #c8a000 (dorado geo) */
+[data-region="mondstadt"] .count-icon { background:rgba(80,167,151,0.25);  border:1px solid rgba(80,167,151,0.5); }
 [data-region="liyue"]     .count-icon { background:rgba(200,160,0,0.25);   border:1px solid rgba(200,160,0,0.5); }
-/* Inazuma → Electro  #6030ba */
 [data-region="inazuma"]   .count-icon { background:rgba(96,48,186,0.28);   border:1px solid rgba(96,48,186,0.55); }
-/* Sumeru → Dendro  #2a7a28 */
 [data-region="sumeru"]    .count-icon { background:rgba(42,122,40,0.25);   border:1px solid rgba(42,122,40,0.5); }
-/* Fontaine → Hydro  #3677c8 */
 [data-region="fontaine"]  .count-icon { background:rgba(54,119,200,0.25);  border:1px solid rgba(54,119,200,0.5); }
-/* Natlan → Pyro  #cd4219 */
 [data-region="natlan"]    .count-icon { background:rgba(205,66,25,0.28);   border:1px solid rgba(205,66,25,0.55); }
-/* Snezhnaya → Cryo  #7ab8d8 */
 [data-region="snezhnaya"] .count-icon { background:rgba(122,184,216,0.25); border:1px solid rgba(122,184,216,0.5); }
 .count-num { font-family:var(--r-font-title); font-size:1.05rem; color:var(--r-accent); min-width:28px; text-align:right; transition:color .5s; }
 .count-label { color:var(--r-text2); font-size:.65rem; }
@@ -407,9 +371,6 @@ header::after {
 .log-malo-gana  { color:#e06060; }
 .log-bueno-gana { color:var(--r-bueno); }
 
-/* ════════════════════════════════════
-   TABLERO
-════════════════════════════════════ */
 .board-wrap { display:flex; flex-direction:column; gap:10px; }
 
 #board-container {
@@ -432,9 +393,6 @@ header::after {
 
 #game-canvas { display:block; width:100%; image-rendering:pixelated; image-rendering:crisp-edges; border-radius:7px; }
 
-/* ════════════════════════════════════
-   CONTROLES
-════════════════════════════════════ */
 .controls {
   display:flex; align-items:center; justify-content:center;
   gap:8px; flex-wrap:nowrap; padding:10px 14px;
@@ -448,7 +406,7 @@ header::after {
 
 .btn {
   font-family: var(--r-font-ui); font-size: .71rem; letter-spacing: .1em; text-transform: uppercase;
-  cursor: pointer; border: none; border-radius: 5px; padding: 9px 14px; white-space:nowrap;
+  cursor: pointer; border: none; border-radius: 5px; padding: 9px 14px; white-space: nowrap;
   transition: all .2s; position: relative; overflow: hidden;
 }
 .btn::after { content:''; position:absolute; inset:0; background:linear-gradient(160deg,rgba(255,255,255,.12) 0%,transparent 50%); pointer-events:none; }
@@ -459,7 +417,6 @@ header::after {
   border: 1px solid var(--r-panel-border);
   box-shadow: 0 2px 12px var(--r-glow);
 }
-/* En regiones oscuras el texto del botón debe ser claro */
 [data-region="inazuma"] .btn-primary,
 [data-region="natlan"] .btn-primary,
 [data-region="snezhnaya"] .btn-primary { color: var(--r-accent); }
@@ -493,9 +450,6 @@ header::after {
 #speed-slider { -webkit-appearance:none; width:80px; height:3px; background:var(--r-panel-border); border-radius:2px; cursor:pointer; }
 #speed-slider::-webkit-slider-thumb { -webkit-appearance:none; width:13px; height:13px; border-radius:50%; background:var(--r-accent); box-shadow:0 0 5px var(--r-glow); transition:background .5s; }
 
-/* ════════════════════════════════════
-   RESULTADO
-════════════════════════════════════ */
 #result-banner {
   display:none; position:absolute; inset:0; z-index:10;
   align-items:center; justify-content:center;
@@ -515,39 +469,7 @@ header::after {
 
 @media (max-width:960px) { .main-content{grid-template-columns:1fr;} .side-panel{display:none;} #region-selector{top:8px;right:8px;} }
 @media (max-width:480px) { .btn{padding:7px 13px;font-size:.65rem;} .title-main{font-size:1.3rem;} }
-/* ════════════════════════════════════
-   RESPONSIVE MÓVIL
-════════════════════════════════════ */
-@media (max-width: 960px) {
-  /* El selector de región sale del fixed y entra en el flujo,
-     centrado encima del header para que no solape el título */
-  #region-selector {
-    position: relative;
-    top: auto; right: auto;
-    align-items: center;
-    margin: 12px auto 0;
-    width: fit-content;
-  }
 
-  /* El app pasa a columna simple: selector → header → tablero → controles */
-  #app {
-    padding: 10px;
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    gap: 10px;
-  }
-
-  /* Header debajo del selector, padding reducido */
-  header { padding: 6px 0 4px; }
-
-  /* Tablero ocupa todo el ancho */
-  .board-wrap { width: 100%; }
-  #board-container { padding: 0; }
-}
-
-@media (max-width: 480px) {
-  .btn { padding: 7px 13px; font-size: .65rem; }
-  .title-main { font-size: 1.3rem; }
-  .title-sub, .region-subtitle { font-size: .7rem; }
+@media (max-width:960px) {
+  .controls { flex-wrap: wrap; }
 }

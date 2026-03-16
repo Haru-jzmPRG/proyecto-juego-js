@@ -451,10 +451,12 @@ class Renderer {
   }
 
   resize() {
-    const maxW = this.canvas.parentElement.clientWidth - 8;
     const isMobile = window.innerWidth < 960;
     const dispCols = isMobile ? this.board.rows : this.board.cols;
     const dispRows = isMobile ? this.board.cols : this.board.rows;
+    const maxW = isMobile
+      ? window.innerWidth - 20
+      : this.canvas.parentElement.clientWidth - 8;
     this.cell = Math.max(6, Math.floor(maxW / dispCols));
     this.canvas.width  = dispCols * this.cell;
     this.canvas.height = dispRows * this.cell;
