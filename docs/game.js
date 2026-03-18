@@ -3,14 +3,14 @@
    ============================================================ */
 
 /* ───── Constantes ───── */
-const BOARD_ROWS     = 40;
-const BOARD_COLS     = 60;
+const BOARD_ROWS     = 35;
+const BOARD_COLS     = 45;
 const RADIO_PELIGRO  = 5;
 const UMBRAL_PATRULLA = 5;
 
 // Cantidades configurables; se sobreescriben desde los inputs antes de cada partida
-let NUM_MALOS  = 40;
-let NUM_BUENOS = 40;
+let NUM_MALOS  = 20;
+let NUM_BUENOS = 20;
 
 const DIR_Y = [-1, 1, 0, 0, -1, -1,  1,  1];
 const DIR_X = [ 0, 0,-1, 1, -1,  1, -1,  1];
@@ -54,13 +54,13 @@ const Arma = {
    el fallback de formas geométricas automáticamente.
    ============================================================ */
 const IMG_MALOS = {
-  PYRO:    'assets/malo_pyro.png',
-  HYDRO:   'assets/malo_hydro.png',
-  ELECTRO: 'assets/malo_electro.png',
-  DENDRO:  'assets/malo_dendro.png',
-  ANEMO:   'assets/malo_anemo.png',
-  GEO:     'assets/malo_geo.png',
-  CRYO:    'assets/malo_cryo.png',
+  PYRO:    'assets/SLIME_PYRO.png',
+  HYDRO:   'assets/SLIME_HYDRO.png',
+  ELECTRO: 'assets/SLIME_ELECTRO.png',
+  DENDRO:  'assets/SLIME_DENDRO.png',
+  ANEMO:   'assets/SLIME_ANEMO.png',
+  GEO:     'assets/SLIME_GEO.png',
+  CRYO:    'assets/SLIME_CRYO.png',
 };
 const IMG_BUENOS = {
   PYRO:    'assets/PYRO.png',
@@ -75,7 +75,7 @@ const imgCache = {};
 
 /* Obstáculo — pon la ruta a tu imagen o deja '' para el dibujado procedural */
 const imgObstaculo = new Image();
-imgObstaculo.src = ''; // ej: 'assets/obstaculo.png'
+imgObstaculo.src = 'assets/TORRE.png'; 
 
 /* ============================================================
    CLASE Posicion

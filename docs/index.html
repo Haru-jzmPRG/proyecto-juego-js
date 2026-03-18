@@ -81,7 +81,7 @@
             <div class="count-icon malo" id="icon-malo">&#216;</div>
             <div>
               <div style="display:flex;align-items:center;gap:6px;">
-                <span class="count-num" id="malos-count">40</span>
+                <span class="count-num" id="malos-count">20</span>
                 <span class="count-label">activos</span>
               </div>
               <div class="progress-bar-wrap">
@@ -158,12 +158,12 @@
           <div class="troops-wrap">
             <div class="troop-field">
               <span class="troop-label malo">Malos</span>
-              <input class="troop-input" id="input-malos" type="number" min="1" max="200" value="40">
+              <input class="troop-input" id="input-malos" type="number" min="1" max="200" value="20">
             </div>
             <span class="troop-sep">vs</span>
             <div class="troop-field">
               <span class="troop-label bueno">Buenos</span>
-              <input class="troop-input" id="input-buenos" type="number" min="1" max="200" value="40">
+              <input class="troop-input" id="input-buenos" type="number" min="1" max="200" value="20">
             </div>
             <span class="troop-sep">&#183;</span>
             <div class="troop-field">
@@ -189,7 +189,7 @@
             <div class="count-icon bueno" id="icon-bueno">&#223;</div>
             <div>
               <div style="display:flex;align-items:center;gap:6px;">
-                <span class="count-num" id="buenos-count">40</span>
+                <span class="count-num" id="buenos-count">20</span>
                 <span class="count-label">activos</span>
               </div>
               <div class="progress-bar-wrap">
@@ -303,13 +303,13 @@
       // Formato: { malo: 'assets/icono_malo_REGION.png', bueno: 'assets/icono_bueno_REGION.png' }
       // Si la ruta está vacía ('') se usará el emoji/símbolo de texto como fallback.
       var ICONOS_REGION = {
-        mondstadt: { malo: '', bueno: 'assets/ANEMO.png', elementoMalo: '&#9898;', elementoBueno: '&#9898;' },
-        liyue: { malo: '', bueno: '', elementoMalo: '&#9830;', elementoBueno: '&#9830;' },
-        inazuma: { malo: '', bueno: 'assets/ELECTRO.png', elementoMalo: '&#9889;', elementoBueno: '&#9889;', elementoBueno2: '&#9889;' },
-        sumeru: { malo: '', bueno: '', elementoMalo: '&#9752;', elementoBueno: '&#9752;' },
-        fontaine: { malo: '', bueno: 'assets/HYDRO.png', elementoMalo: '&#9685;', elementoBueno: '&#9685;', elementoBueno2: '&#9685;' },
-        natlan: { malo: '', bueno: 'assets/PYRO.png', elementoMalo: '&#9733;', elementoBueno: '&#9733;', elementoBueno2: '&#9733;' },
-        snezhnaya: { malo: '', bueno: '', elementoMalo: '&#10052;', elementoBueno: '&#10052;' },
+        mondstadt: { malo: 'assets/SLIME_ANEMO.png', bueno: 'assets/ANEMO.png', elementoMalo: '&#9898;', elementoBueno: '&#9898;' },
+        liyue: { malo: 'assets/SLIME_GEO.png', bueno: 'assets/GEO.png', elementoMalo: '&#9830;', elementoBueno: '&#9830;' },
+        inazuma: { malo: 'assets/SLIME_ELECTRO.png', bueno: 'assets/ELECTRO.png', elementoMalo: '&#9889;', elementoBueno: '&#9889;', elementoBueno2: '&#9889;' },
+        sumeru: { malo: 'assets/SLIME_DENDRO.png', bueno: 'assets/DENDRO.png', elementoMalo: '&#9752;', elementoBueno: '&#9752;' },
+        fontaine: { malo: 'assets/SLIME_HYDRO.png', bueno: 'assets/HYDRO.png', elementoMalo: '&#9685;', elementoBueno: '&#9685;', elementoBueno2: '&#9685;' },
+        natlan: { malo: 'assets/SLIME_PYRO.png', bueno: 'assets/PYRO.png', elementoMalo: '&#9733;', elementoBueno: '&#9733;', elementoBueno2: '&#9733;' },
+        snezhnaya: { malo: 'assets/SLIME_CRYO.png', bueno: 'assets/CRYO.png', elementoMalo: '&#10052;', elementoBueno: '&#10052;' },
       };
       var iconDef = ICONOS_REGION[key] || ICONOS_REGION.mondstadt;
       var iconMaloEl = document.getElementById('icon-malo');
