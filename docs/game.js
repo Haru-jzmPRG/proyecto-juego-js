@@ -3,7 +3,7 @@
    ============================================================ */
 
 /* ───── Constantes ───── */
-const BOARD_ROWS     = 35;
+const BOARD_ROWS     = 30;
 const BOARD_COLS     = 45;
 const RADIO_PELIGRO  = 5;
 const UMBRAL_PATRULLA = 5;
@@ -689,6 +689,13 @@ class Renderer {
   /* ── Obstáculo ── */
   _obs(ctx, px, py, cell, t) {
     if (cell < 5) { ctx.fillStyle = t.obsB; ctx.fillRect(px, py, cell, cell); return; }
+
+    // Si hay imagen de obstáculo, usarla directamente
+    if (imgObstaculo.src && imgObstaculo.complete && imgObstaculo.naturalWidth > 0) {
+      ctx.drawImage(imgObstaculo, px, py, cell, cell);
+      return;
+    }
+
     const s = Math.max(1, Math.floor(cell * 0.14));
     const s2 = Math.max(1, Math.floor(cell * 0.07));
     const reg = getActiveRegion();
@@ -1125,9 +1132,9 @@ speedSlider.addEventListener('input', () => {
 /* ───── Inicializar partida ───── */
 function initGame(){
   // Leer cantidades configuradas por el usuario (con clamp de seguridad)
-  NUM_MALOS  = Math.max(1, Math.min(200, parseInt(document.getElementById('input-malos').value)  || 40));
-  NUM_BUENOS = Math.max(1, Math.min(200, parseInt(document.getElementById('input-buenos').value) || 40));
-  const numObstaculos = Math.max(0, Math.min(500, parseInt(document.getElementById('input-obstaculos').value) || 77));
+  NUM_MALOS  = Math.max(1, Math.min(200, parseInt(document.getElementById('input-malos').value)  || 20));
+  NUM_BUENOS = Math.max(1, Math.min(200, parseInt(document.getElementById('input-buenos').value) || 20));
+  const numObstaculos = Math.max(0, Math.min(500, parseInt(document.getElementById('input-obstaculos').value) || 50));
 
   // Actualizar inputs con valores validados
   document.getElementById('input-malos').value      = NUM_MALOS;
@@ -1306,7 +1313,7 @@ btnReset.addEventListener('click', () => {
 /* ───── Init visual al cargar la página ───── */
 window.addEventListener('load', () => {
   board = new TableroDeJuego(BOARD_ROWS, BOARD_COLS);
-  board.generarObstaculosAleatorios(77);
+  board.generarObstaculosAleatorios(50);
   renderer = new Renderer(canvas, board);
   renderer.draw([]);
 });

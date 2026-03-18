@@ -35,10 +35,10 @@
   --r-bg1: #a8d898; --r-bg2: #78b870;
   --r-panel: rgba(235,250,230,0.91);
   --r-panel-border: rgba(70,150,70,0.22);
-  --r-accent: #3a9848; --r-accent2: #206030;
+  --r-accent: #1c4922; --r-accent2: #206030;
   --r-glow: rgba(58,152,72,0.16);
-  --r-text: #183418; --r-text2: #508850;
-  --r-title: linear-gradient(135deg,#206030 0%,#60c850 50%,#206030 100%);
+  --r-text: #183418; --r-text2: #2f522f;
+  --r-title: linear-gradient(135deg,#206030 0%,#408635 50%,#206030 100%);
   --r-btn: linear-gradient(155deg,#3a9848 0%,#1e6830 100%);
   --r-btn-h: linear-gradient(155deg,#50b858 0%,#3a9848 100%);
   --r-bueno: #28a848;
@@ -53,10 +53,10 @@
   --r-bg1: #e8c070; --r-bg2: #c09040;
   --r-panel: rgba(255,248,228,0.92);
   --r-panel-border: rgba(180,120,20,0.22);
-  --r-accent: #b87818; --r-accent2: #8a5008;
+  --r-accent: #7c551b; --r-accent2: #8a5008;
   --r-glow: rgba(184,120,24,0.18);
   --r-text: #3a1e00; --r-text2: #9a6820;
-  --r-title: linear-gradient(135deg,#9a5008 0%,#f0c840 50%,#9a5008 100%);
+  --r-title: linear-gradient(135deg,#c4670b 0%,#a57f03 50%,#c4670b 100%);
   --r-btn: linear-gradient(155deg,#c08018 0%,#8a5008 100%);
   --r-btn-h: linear-gradient(155deg,#e0a030 0%,#c08018 100%);
   --r-bueno: #c89020;
@@ -89,10 +89,10 @@
   --r-bg1: #60a038; --r-bg2: #387820;
   --r-panel: rgba(230,248,225,0.91);
   --r-panel-border: rgba(50,160,50,0.22);
-  --r-accent: #288038; --r-accent2: #186020;
+  --r-accent: #012708; --r-accent2: #186020;
   --r-glow: rgba(42,130,56,0.18);
-  --r-text: #0e2e10; --r-text2: #3a8040;
-  --r-title: linear-gradient(135deg,#186020 0%,#60d858 50%,#186020 100%);
+  --r-text: #0e2e10; --r-text2: #033607;
+  --r-title: linear-gradient(135deg,#0b3310 0%,#236b1e 50%,#0b3310 100%);
   --r-btn: linear-gradient(155deg,#288038 0%,#145020 100%);
   --r-btn-h: linear-gradient(155deg,#38a048 0%,#288038 100%);
   --r-bueno: #20a030;
@@ -107,10 +107,10 @@
   --r-bg1: #70b8e8; --r-bg2: #4090c0;
   --r-panel: rgba(228,244,255,0.92);
   --r-panel-border: rgba(20,130,200,0.22);
-  --r-accent: #0888c0; --r-accent2: #065890;
+  --r-accent: #075679; --r-accent2: #065890;
   --r-glow: rgba(10,136,192,0.18);
   --r-text: #02203a; --r-text2: #2870a8;
-  --r-title: linear-gradient(135deg,#065890 0%,#48d0ff 50%,#065890 100%);
+  --r-title: linear-gradient(135deg,#0e3047 0%,#065890 50%,#0e3047 100%);
   --r-btn: linear-gradient(155deg,#0888c0 0%,#044870 100%);
   --r-btn-h: linear-gradient(155deg,#18a8e0 0%,#0888c0 100%);
   --r-bueno: #10b8f0;
@@ -275,7 +275,7 @@ body {
 .region-option[data-r="sumeru"]    .r-dot { background:#288038; box-shadow:0 0 4px #50d860; }
 .region-option[data-r="fontaine"]  .r-dot { background:#0888c0; box-shadow:0 0 4px #30c8f0; }
 .region-option[data-r="natlan"]    .r-dot { background:#e86010; box-shadow:0 0 4px #e86010; }
-.region-option[data-r="snezhnaya"].r-dot  { background:#70b8f8; box-shadow:0 0 4px #70b8f8; }
+.region-option[data-r="snezhnaya"] .r-dot  { background:#70b8f8; box-shadow:0 0 4px #70b8f8; }
 
 #app {
   position: relative; z-index: 1;
