@@ -98,13 +98,13 @@ El juego incluye **7 regiones de Teyvat**, cada una con tema visual propio (colo
 
 | Elemento | Archivo |
 |---|---|
-| Pyro | `assets/SLIME_PYRO.png` |
-| Hydro | `assets/SLIME_HYDRO.png` |
-| Electro | `assets/SLIME_ELECTRO.png` |
-| Dendro | `assets/SLIME_DENDRO.png` |
-| Anemo | `assets/SLIME_ANEMO.png` |
-| Geo | `assets/SLIME_GEO.png` |
-| Cryo | `assets/SLIME_CRYO.png` |
+| Pyro | `assets/SLIME_PYRO.png` | ![SLIME_PYTO](docs/assets/SLIME_PYRO.png) |
+| Hydro | `assets/SLIME_HYDRO.png` | ![SLIME_HYDRO](docs/assets/SLIME_HYDRO.png) |
+| Electro | `assets/SLIME_ELECTRO.png` | ![SLIME_ELECTRO](docs/assets/SLIME_ELECTRO.png) |
+| Dendro | `assets/SLIME_DENDRO.png` | ![SLIME_DENDRO](docs/assets/SLIME_DENDRO.png) |
+| Anemo | `assets/SLIME_ANEMO.png` | ![SLIME_ANEMO](docs/assets/SLIME_ANEMO.png) |
+| Geo | `assets/SLIME_GEO.png` | ![SLIME_GEO](docs/assets/SLIME_GEO.png) |
+| Cryo | `assets/SLIME_CRYO.png` | ![SLIME_CRYO](docs/assets/SLIME_CRYO.png) |
 
 ### Facción de la Luz — Buenos
 
@@ -122,7 +122,7 @@ El juego incluye **7 regiones de Teyvat**, cada una con tema visual propio (colo
 
 | Archivo | Vista previa |
 |---|---|
-| `assets/TORRE.png` | ![TORRE](docs/assets/TORRE.png) |
+| Torre Hilichurl | `assets/TORRE.png` | ![TORRE](docs/assets/TORRE.png) |
 
 ### Mondstadt
 
