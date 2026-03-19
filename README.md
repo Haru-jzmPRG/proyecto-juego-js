@@ -96,8 +96,8 @@ El juego incluye **7 regiones de Teyvat**, cada una con tema visual propio (colo
 
 ### Facción Oscura — Malos (Slimes)
 
-| Elemento | Archivo |
-|---|---|
+| Slime | Archivo | Vista previa |
+|---|---|---|
 | Pyro | `assets/SLIME_PYRO.png` | ![SLIME_PYTO](docs/assets/SLIME_PYRO.png) |
 | Hydro | `assets/SLIME_HYDRO.png` | ![SLIME_HYDRO](docs/assets/SLIME_HYDRO.png) |
 | Electro | `assets/SLIME_ELECTRO.png` | ![SLIME_ELECTRO](docs/assets/SLIME_ELECTRO.png) |
@@ -120,8 +120,8 @@ El juego incluye **7 regiones de Teyvat**, cada una con tema visual propio (colo
 
 ### Obstáculo
 
-| Archivo | Vista previa |
-|---|---|
+| Nombre | Archivo | Vista previa |
+|---|---|---|
 | Torre Hilichurl | `assets/TORRE.png` | ![TORRE](docs/assets/TORRE.png) |
 
 ### Mondstadt
